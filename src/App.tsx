@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import ShowInfo from './components/ShowInfo'
@@ -9,35 +9,34 @@ import AboutPage from './pages/AboutPage'
 import WebsiteLayout from './pages/layouts/WebsiteLayout'
 import AdminLayout from './pages/layouts/AdminLayout'
 import ProductDetail from './pages/ProductDetail'
+import { ProductType } from './pages/type/product'
+import { listProducts, remove } from './api/product'
+import ProductManager from './pages/ProductManager'
 
 function App() {
-  const [count,setCount] = useState(0)
-  const [myName,setMyName] = useState("Abc")
-  const [status,setStatus] = useState(false)
-  const [info,setInfo] = useState({
-    name:"abc",
-    age: 20
-  })
-  const [products,setProducts] = useState([
-    {id:1,name:"product 1"},
-    {id:2,name:"product 2"},
-    {id:3,name:"product 3"}
-  ])
+  const [products, setProducts] = useState<ProductType[]>([]);
+
+  useEffect(() => {
+      const getProducts = async () => {
+            const { data } = await listProducts();
+            setProducts(data);
+      }
+      getProducts();
+  }, [])
+  const removeItem = (id: Number)=>{
+    console.log(id);
+    remove(id)
+
+    setProducts(products.filter(item => item.id !== id))
+    
+  }
+
 
   return (
     <div className="App">
-      {/* Count: {count}
-      <hr />
-      Full Name: {myName}
-      <hr />
-      Status: {status ? "True" : "False"}
-      <hr />
-      Info: {info.name} - {info.age}
-      <hr />
-      Products: {products.map(item => <div className="">{item.id} - {item.name}</div> )}
-
-
-      <ShowInfo name="Dat" age={20}/> */}
+       <div>
+        {products?.map(item => item.name)}
+      </div>
       <header>
           {/* <ul>
             <li><NavLink to="/">Home Page</NavLink></li>
@@ -49,16 +48,19 @@ function App() {
         <Routes>
           <Route path="/" element={<WebsiteLayout />}>
             <Route index element={<HomePage />}  />
-            <Route path="product" element={<ProductPage />} />
+            <Route path="product"  >
+              <Route index element={<ProductPage />} />
+              <Route path=":id" element={<ProductDetail />} />
+            </Route>
             <Route path='about' element={<AboutPage/>} />
-            <Route path="/product/:id" element={<ProductDetail />} />
+            
           </Route>
           
           <Route path="admin" element={<AdminLayout />} >
             <Route index element={<Navigate to="dashboard" />} />
 
             <Route path="dashboard" element={<h1>Admin Dashboard</h1>} />
-
+            <Route path="products" element={<ProductManager products={products} onRemove={removeItem} />} />
           </Route>
 
           <Route path="*" element={<h1>Not Found</h1>} />
