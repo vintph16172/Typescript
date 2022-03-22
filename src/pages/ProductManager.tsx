@@ -3,10 +3,11 @@ import { ProductType } from './type/product'
 
 type ProductManagerProps = {
   products: ProductType[],
-  onRemove: (id: number) => void
+  onRemove: (id: number) => void,
+  
 }
 
-const ProductManager = ({products ,onRemove}: ProductManagerProps) => {
+const ProductManager = ({ products, onRemove }: ProductManagerProps) => {
   return (
     <div>
       <table>
@@ -33,7 +34,8 @@ const ProductManager = ({products ,onRemove}: ProductManagerProps) => {
           })}
         </tbody>
       </table>
-      </div>
+
+    </div>
   )
 }
 
