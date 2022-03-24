@@ -6,7 +6,8 @@
     },
     {
       "id": 2,
-      "name": "Product B"
+      "name": "Product B",
+      "price": "79.000"
     },
     {
       "id": 3,

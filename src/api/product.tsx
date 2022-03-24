@@ -6,7 +6,7 @@ export const listProducts = ()=>{
     const url = "/products"
     return instance.get(url)
 }
-export const detailProduct = (id: Number)=>{
+export const detailProduct = (id: number  | undefined)=>{
     const url = `/products/${id}`
     return instance.get(url)
 }
@@ -15,8 +15,8 @@ export const add = (product: ProductType )=>{
     return instance.post(url,product)
 }
 
-export const update = (id: Number,product: ProductType )=>{
-    const url = `/product/${id}`
+export const update = (product: ProductType )=>{
+    const url = `/products/${product.id}`
     return instance.put(url,product)
 }
 export const remove = (id: Number)=>{
