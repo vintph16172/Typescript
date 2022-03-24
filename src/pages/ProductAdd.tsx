@@ -17,11 +17,12 @@ const ProductAdd = (props: ProductAddProps) => {
 
     const onSubmit: SubmitHandler<FormInputs> = data => {
         props.onAdd(data);
-        // navigate('/admin/product')
+        navigate('/admin/products')
     }
+
   return (
     <form action="" onSubmit={handleSubmit(onSubmit)}>
-        <input type="text" {...register('name', {required: true})}/>
+        <input type="text"  {...register('name', {required: true})}/>
         <input type="number"{...register('price')} />
         <button>Add</button>
     </form>

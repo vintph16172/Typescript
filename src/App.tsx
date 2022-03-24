@@ -24,31 +24,24 @@ function App() {
       }
       getProducts();
   }, [])
-  const removeItem = (id: Number)=>{
+  const removeItem =  (id: Number)=>{
     console.log(id);
     remove(id)
 
     setProducts(products.filter(item => item.id !== id))
     
   }
-  const onHanldeAdd = (data) => {
-    add(data);
-    setProducts([...products, data])
+  const onHanldeAdd = async (product: ProductType) => {
+    const { data } = await add(product);
+    setProducts([...products, data]);
+    
   }
 
 
   return (
     <div className="App">
-       <div>
-        {products?.map(item => item.name)}
-      </div>
-      <header>
-          {/* <ul>
-            <li><NavLink to="/">Home Page</NavLink></li>
-            <li><NavLink to="/products">Products Page</NavLink></li>
-            <li><NavLink to="/about">About Page</NavLink></li>
-          </ul> */}
-      </header>
+       
+      
       <main>
         <Routes>
           <Route path="/" element={<WebsiteLayout />}>
