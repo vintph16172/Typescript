@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
+
 import ShowInfo from './components/ShowInfo'
 import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
 import HomePage from './pages/HomePage'
@@ -16,6 +17,7 @@ import ProductAdd from './pages/ProductAdd'
 import ProductEdit from './pages/ProductEdit'
 import PrivateRoute from './components/PrivateRoute'
 
+
 function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
 
@@ -26,7 +28,7 @@ function App() {
     }
     getProducts();
   }, [])
-  const removeItem = (id: Number) => {
+  const removeItem = (id: Number | undefined) => {
     console.log(id);
     remove(id)
 
@@ -72,6 +74,8 @@ function App() {
           </Route>
 
           <Route path="/login" element={<h1> Login Page </h1>} />
+         
+
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
 

@@ -1,8 +1,23 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-.App {
+@import 'antd/dist/antd.css';
+
+.container{
+  background-color: white;
+}
+
+.btn-update{
+  background-color: #198754;
+  border-color: #198754;
+  
+}
+.btn-update:hover{
+  background-color: #21c579;
+  border-color: #21c579;
+  
+}
+
+
+/* .App {
   text-align: center;
 }
 
@@ -43,4 +58,4 @@
 
 button {
   font-size: calc(10px + 2vmin);
-}
+} */

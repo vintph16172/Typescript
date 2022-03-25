@@ -11,7 +11,48 @@
     },
     {
       "id": 3,
-      "name": "Product C"
+      "name": "Product C",
+      "price": "79.000"
+    },
+    {
+      "id": 4,
+      "name": "Product C",
+      "price": "79.000"
+    },
+    {
+      "id": 5,
+      "name": "Product C",
+      "price": "79.000"
+    },
+    {
+      "id": 6,
+      "name": "Product C",
+      "price": "79.000"
+    },
+    {
+      "id": 7,
+      "name": "Product C",
+      "price": "79.000"
+    },
+    {
+      "id": 8,
+      "name": "Product C",
+      "price": "79.000"
+    },
+    {
+      "id": 9,
+      "name": "Product C",
+      "price": "79.000"
+    },
+    {
+      "id": 10,
+      "name": "Product C",
+      "price": "79.000"
+    },
+    {
+      "id": 11,
+      "name": "Product C",
+      "price": "79.000"
     }
   ]
 }

@@ -20,7 +20,7 @@ const ProductEdit = ({onEdit}: ProductEditProps) => {
 
     useEffect(()=>{
         const getProduct = async () => {
-            const { data } = await detailProduct(id)
+            const { data } = await detailProduct(Number(id))
             console.log(data);
             reset(data)
             

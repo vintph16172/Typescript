@@ -19,7 +19,7 @@ export const update = (product: ProductType )=>{
     const url = `/products/${product.id}`
     return instance.put(url,product)
 }
-export const remove = (id: Number)=>{
+export const remove = (id: Number | undefined)=>{
     const url = `/products/${id}`
     return instance.delete(url)
 }
