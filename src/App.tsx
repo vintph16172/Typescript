@@ -16,7 +16,8 @@ import ProductManager from './pages/ProductManager'
 import ProductAdd from './pages/ProductAdd'
 import ProductEdit from './pages/ProductEdit'
 import PrivateRoute from './components/PrivateRoute'
-
+import SignUp from './pages/SignUp'
+import SignIn from './pages/SignIn'
 
 function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
@@ -33,6 +34,18 @@ function App() {
     remove(id)
 
     setProducts(products.filter(item => item.id !== id))
+
+  }
+  const removeItemAll = (idArray: number[]) => {
+    console.log(idArray);
+    
+    for (let index = 0; index < idArray.length; index++) {
+      
+      remove(idArray[index])
+      setProducts(products.filter(item => item.id !== idArray[index]))
+    }
+
+    
 
   }
   const onHanldeAdd = async (product: ProductType) => {
@@ -66,7 +79,7 @@ function App() {
 
             <Route path="dashboard" element={<h1>Admin Dashboard</h1>} />
             <Route path="products"  >
-              <Route index element={<ProductManager products={products} onRemove={removeItem} />} />
+              <Route index element={<ProductManager products={products} onRemove={removeItem} onRemoveAll={removeItemAll} />} />
               <Route path="add" element={<ProductAdd onAdd={onHanldeAdd} />} />
               <Route path=":id/edit" element={<ProductEdit onEdit={onHanldeEdit} />} />
             </Route >
@@ -74,7 +87,8 @@ function App() {
           </Route>
 
           <Route path="/login" element={<h1> Login Page </h1>} />
-         
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
 
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>

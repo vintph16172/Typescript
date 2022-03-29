@@ -1,6 +1,8 @@
 import { ProductType } from "../pages/type/product";
+import { isAthenticate } from "../utils/localstorage";
 import instance from "./instance";
 
+const { token , user} = isAthenticate()
 
 export const listProducts = ()=>{
     const url = "/products"
@@ -11,8 +13,13 @@ export const detailProduct = (id: number  | undefined)=>{
     return instance.get(url)
 }
 export const add = (product: ProductType )=>{
-    const url = "/products"
-    return instance.post(url,product)
+    const url = `/products/${user._id}`
+    return instance.post(url,product,{
+        headers:{
+            "Authorization":`Bearer ${token}`
+        }
+
+    })
 }
 
 export const update = (product: ProductType )=>{
