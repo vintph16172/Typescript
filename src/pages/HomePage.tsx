@@ -1,33 +1,90 @@
 import React from 'react'
+import { Carousel, Card, Tabs } from 'antd';
+import { AppleOutlined, AndroidOutlined } from '@ant-design/icons';
+import { ProductType } from './type/product';
+import { CategoryType } from './type/category';
+type HomePageProps = {
+    products: ProductType[],
+    categories: CategoryType[]
 
-type Props = {}
+}
 
-const HomePage = (props: Props) => {
+const HomePage = ({ products, categories }: HomePageProps) => {
+
+    const productSortView = products.sort(function (a, b) {
+        return b.view - a.view
+    });
+    const productView = []
+    const productNew = []
+    for (let index = 0; index < 4; index++) {
+        productView.push(productSortView[index])
+        
+    }
+
+    console.log(productView);
+
+    const { Meta } = Card;
+    const { TabPane } = Tabs;
     return (
         <div className="leading-normal tracking-normal text-white gradient">
-            <div className="pt-24">
-                <div className="container mt-4 px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center ">
-                    {/*Left Col*/}
-                    <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
-                        {/* <p className="uppercase tracking-loose w-full">What business are you?</p> */}
-                        <h1 className="my-4 text-5xl font-bold leading-tight">
-                            Khuyến Mãi Lên Đến 50%!
-                        </h1>
-                        <p className="leading-normal text-2xl mb-8">
-                            Áp dụng từ 18/3 - 25/3!
-                        </p>
-                        <button className="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Đặt Ngay
-                        </button>
+            <Carousel autoplay dotPosition={"top"}>
+                <div className="pt-24">
+
+                    <div className="container mt-4 px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center ">
+                        {/*Left Col*/}
+                        <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
+                            {/* <p className="uppercase tracking-loose w-full">What business are you?</p> */}
+                            <h1 className="my-4 text-5xl font-bold leading-tight">
+                                Khuyến Mãi Lên Đến 50%!
+                            </h1>
+                            <p className="leading-normal text-2xl mb-8">
+                                Áp dụng từ 18/3 - 25/3!
+                            </p>
+                            <button className="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                                Đặt Ngay
+                            </button>
+                        </div>
+                        {/*Right Col*/}
+                        <div className="w-full md:w-3/5 md:flex py-6 text-center justify-center">
+                            {/* <img className="w-full md:w-4/5 z-50" src="hero.png" /> */}
+
+                            <img className="w-full md:w-2/5  " src="../src/img/homepage-banner-1.png" alt="" />
+                        </div>
                     </div>
-                    {/*Right Col*/}
-                    <div className="w-full md:w-3/5 md:flex py-6 text-center justify-center">
-                        {/* <img className="w-full md:w-4/5 z-50" src="hero.png" /> */}
-                        
-                        <img className="w-full md:w-2/5  " src="../src/img/homepage-banner-1.png" alt="" />
-                    </div>
+
                 </div>
-            </div>
+
+                <div className="pt-24">
+
+                    <div className="container mt-4 px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center ">
+                        {/*Left Col*/}
+                        <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
+                            {/* <p className="uppercase tracking-loose w-full">What business are you?</p> */}
+                            <h1 className="my-4 text-5xl font-bold leading-tight">
+                                Khuyến Mãi
+                            </h1>
+                            <p className="leading-normal text-2xl mb-8">
+                                Áp dụng từ 18/3 - 25/3!
+                            </p>
+                            <button className="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                                Đặt Ngay
+                            </button>
+                        </div>
+                        {/*Right Col*/}
+                        <div className="w-full md:w-3/5 md:flex py-6 text-center justify-center">
+                            {/* <img className="w-full md:w-4/5 z-50" src="hero.png" /> */}
+
+                            <img className="w-full md:w-2/5  " src="../src/img/homepage-banner-1.png" alt="" />
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </Carousel>
+
+
+
             <div className="relative -mt-12 lg:-mt-24">
                 <svg viewBox="0 0 1428 174" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
                     <g stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
@@ -41,8 +98,9 @@ const HomePage = (props: Props) => {
                         </g>
                     </g>
                 </svg>
-                
+
             </div>
+
             <section className="bg-white border-b py-8">
                 <div className="container max-w-5xl mx-auto m-8">
                     <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
@@ -173,82 +231,226 @@ const HomePage = (props: Props) => {
                     </div>
                 </div>
             </section>
+
+
+            <section className="bg-white border-b py-8">
+                <div className="container mx-auto flex flex-wrap pt-4 pb-12">
+                    <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
+                        Sản Phẩm Hot Nhất
+                    </h1>
+                    <div className="w-full mb-4">
+                        <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" />
+                    </div>
+
+                    {productView.map((item) =>
+                        <div className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
+                            <Card
+                                hoverable
+                                // style={{ width: 378 }}
+                                className={"flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow"}
+                                cover={<img className="h-72" alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                            >
+                                <Meta title={
+                                    <div className="w-full font-bold text-xl text-gray-800 px-6">
+                                        {item.name}
+                                    </div>
+                                } description={
+                                    <div className="">
+                                        <p className="text-gray-800 text-base px-6 mb-5">
+                                            {categories.filter(cate => { return cate._id == item.category }).map((item2) => { return item2.name })}
+                                        </p>
+                                        <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                                            {item.price} VNĐ
+                                        </button>
+                                    </div>
+                                }
+                                />
+                            </Card>
+                        </div>
+                    )}
+
+
+
+
+                </div>
+            </section>
+
+            <section className="bg-white border-b py-8">
+                <div className="container mx-auto flex flex-wrap pt-4 pb-12">
+                    <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
+                        Sản Phẩm Mới Nhất
+                    </h1>
+                    <div className="w-full mb-4">
+                        <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" />
+                    </div>
+
+                    {productView.map((item) =>
+                        <div className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
+                            <Card
+                                hoverable
+                                // style={{ width: 378 }}
+                                className={"flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow"}
+                                cover={<img className="h-72" alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                            >
+                                <Meta title={
+                                    <div className="w-full font-bold text-xl text-gray-800 px-6">
+                                        {item.name}
+                                    </div>
+                                } description={
+                                    <div className="">
+                                        <p className="text-gray-800 text-base px-6 mb-5">
+                                            {categories.filter(cate => { return cate._id == item.category }).map((item2) => { return item2.name })}
+                                        </p>
+                                        <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                                            {item.price} VNĐ
+                                        </button>
+                                    </div>
+                                }
+                                />
+                            </Card>
+                        </div>
+                    )}
+
+
+
+
+                </div>
+            </section>
+
+
             <section className="bg-white border-b py-8">
                 <div className="container mx-auto flex flex-wrap pt-4 pb-12">
                     <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
                         Title
                     </h1>
+
                     <div className="w-full mb-4">
                         <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" />
                     </div>
-                    <div className="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                        <div className="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                            <a href="#" className="flex flex-wrap no-underline hover:no-underline">
-                                <p className="w-full text-gray-600 text-xs md:text-sm px-6">
-                                    xGETTING STARTED
-                                </p>
-                                <div className="w-full font-bold text-xl text-gray-800 px-6">
-                                    Lorem ipsum dolor sit amet.
+                    <div className="w-full md:w-full p-6 flex flex-col flex-grow flex-shrink">
+                        <Tabs defaultActiveKey="1" centered>
+                            <TabPane tab={<span className="pb-4">
+                                <AppleOutlined />
+                                Tab 1
+                            </span>} key="1">
+                                <div className="container mx-auto flex flex-wrap pt-4 pb-12">
+
+                                    <div className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
+                                        <Card
+                                            hoverable
+                                            // style={{ width: 378 }}
+                                            className={"flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow"}
+                                            cover={<img className="h-72" alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                                        >
+                                            <Meta title={
+                                                <div className="w-full font-bold text-xl text-gray-800 px-6">
+                                                    Lorem ipsum dolor sit amet.
+                                                </div>
+                                            } description={
+                                                <div className="">
+                                                    <p className="text-gray-800 text-base px-6 mb-5">
+                                                        Lorem ipsum dolor sit amet
+                                                    </p>
+                                                    <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                                                        Action
+                                                    </button>
+                                                </div>
+                                            }
+                                            />
+                                        </Card>
+                                    </div>
+                                    <div className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
+                                        <div className="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+                                            <a href="#" className="flex flex-wrap no-underline hover:no-underline">
+                                                <p className="w-full text-gray-600 text-xs md:text-sm px-6">
+                                                    xGETTING STARTED
+                                                </p>
+                                                <div className="w-full font-bold text-xl text-gray-800 px-6">
+                                                    Lorem ipsum dolor sit amet.
+                                                </div>
+                                                <p className="text-gray-800 text-base px-6 mb-5">
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo posuere et sit amet ligula.
+                                                </p>
+                                            </a>
+                                        </div>
+                                        <div className="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
+                                            <div className="flex items-center justify-center">
+                                                <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                                                    Action
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
+                                        <div className="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+                                            <a href="#" className="flex flex-wrap no-underline hover:no-underline">
+                                                <p className="w-full text-gray-600 text-xs md:text-sm px-6">
+                                                    xGETTING STARTED
+                                                </p>
+                                                <div className="w-full font-bold text-xl text-gray-800 px-6">
+                                                    Lorem ipsum dolor sit amet.
+                                                </div>
+                                                <p className="text-gray-800 text-base px-6 mb-5">
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo posuere et sit amet ligula.
+                                                </p>
+                                            </a>
+                                        </div>
+                                        <div className="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
+                                            <div className="flex items-center justify-end">
+                                                <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                                                    Action
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
+                                        <div className="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+                                            <a href="#" className="flex flex-wrap no-underline hover:no-underline">
+                                                <p className="w-full text-gray-600 text-xs md:text-sm px-6">
+                                                    xGETTING STARTED
+                                                </p>
+                                                <div className="w-full font-bold text-xl text-gray-800 px-6">
+                                                    Lorem ipsum dolor sit amet.
+                                                </div>
+                                                <p className="text-gray-800 text-base px-6 mb-5">
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo posuere et sit amet ligula.
+                                                </p>
+                                            </a>
+                                        </div>
+                                        <div className="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
+                                            <div className="flex items-center justify-end">
+                                                <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                                                    Action
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
                                 </div>
-                                <p className="text-gray-800 text-base px-6 mb-5">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo posuere et sit amet ligula.
-                                </p>
-                            </a>
-                        </div>
-                        <div className="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                            <div className="flex items-center justify-start">
-                                <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                                    Action
-                                </button>
-                            </div>
-                        </div>
+                            </TabPane>
+                            <TabPane tab="Tab 2" key="2">
+                                Content of Tab Pane 2
+                            </TabPane>
+                            <TabPane tab="Tab 3" key="3">
+                                Content of Tab Pane 3
+                            </TabPane>
+                        </Tabs>
+
                     </div>
-                    <div className="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                        <div className="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                            <a href="#" className="flex flex-wrap no-underline hover:no-underline">
-                                <p className="w-full text-gray-600 text-xs md:text-sm px-6">
-                                    xGETTING STARTED
-                                </p>
-                                <div className="w-full font-bold text-xl text-gray-800 px-6">
-                                    Lorem ipsum dolor sit amet.
-                                </div>
-                                <p className="text-gray-800 text-base px-6 mb-5">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo posuere et sit amet ligula.
-                                </p>
-                            </a>
-                        </div>
-                        <div className="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                            <div className="flex items-center justify-center">
-                                <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                                    Action
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                        <div className="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                            <a href="#" className="flex flex-wrap no-underline hover:no-underline">
-                                <p className="w-full text-gray-600 text-xs md:text-sm px-6">
-                                    xGETTING STARTED
-                                </p>
-                                <div className="w-full font-bold text-xl text-gray-800 px-6">
-                                    Lorem ipsum dolor sit amet.
-                                </div>
-                                <p className="text-gray-800 text-base px-6 mb-5">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo posuere et sit amet ligula.
-                                </p>
-                            </a>
-                        </div>
-                        <div className="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                            <div className="flex items-center justify-end">
-                                <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                                    Action
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+
+
+
+
+
+
+
                 </div>
             </section>
+
+
+
             <section className="bg-gray-100 py-8">
                 <div className="container mx-auto px-2 pt-4 pb-12 text-gray-800">
                     <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">

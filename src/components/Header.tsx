@@ -6,18 +6,7 @@ type Props = {}
 
 const Header = (props: Props) => {
   return (
-    // <nav classNameName="navbar navbar-expand-lg navbar-light bg-light">
-    //   <div classNameName="container-fluid">
-    //     <a classNameName="navbar-brand" href="#">Navbar</a>
-    //     <button classNameName="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    //       <span classNameName="navbar-toggler-icon" />
-    //     </button>
-    //     <div classNameName="collapse navbar-collapse" id="navbarSupportedContent">
-    //       <Navbar />
-    //       <Search />
-    //     </div>
-    //   </div>
-    // </nav>
+
     <nav id="header" className="fixed w-full z-30 top-0 text-white bg-white">
       <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
         <div className="pl-4 flex items-center">
@@ -46,6 +35,11 @@ const Header = (props: Props) => {
       </div>
       <hr className="border-b border-gray-100 opacity-25 my-0 py-0" />
     </nav>
+    
+    
+
+
+    
 
   )
 }

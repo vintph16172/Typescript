@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate,useParams} from 'react-router-dom'
 import { detailProduct } from '../api/product'
 import { ProductType } from './type/product'
+import { Input } from 'antd';
 
 type ProductEditProps = {
     onEdit: (product: ProductType)=>void
@@ -10,18 +11,23 @@ type ProductEditProps = {
 }
 type FormInputs = {
     name: string,
-    price:number
+    category: string
+    price: number,
+    view: number,
+    status: number
 }
 
 const ProductEdit = ({onEdit}: ProductEditProps) => {
     const {register,handleSubmit,formState:{errors},reset} = useForm<FormInputs>()
     const navigate = useNavigate()
     const {id} = useParams();
-
+    console.log(id);
+    
     useEffect(()=>{
         const getProduct = async () => {
-            const { data } = await detailProduct(Number(id))
+            const { data } = await detailProduct(id)
             console.log(data);
+            
             reset(data)
             
         }

@@ -18,22 +18,33 @@ import ProductEdit from './pages/ProductEdit'
 import PrivateRoute from './components/PrivateRoute'
 import SignUp from './pages/SignUp'
 import SignIn from './pages/SignIn'
+import { listCate } from './api/category'
+import { CategoryType } from './pages/type/category'
 
 function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
+  const [categories, setCategories] = useState<CategoryType[]>([])
 
   useEffect(() => {
     const getProducts = async () => {
       const { data } = await listProducts();
       setProducts(data);
+      console.log(products);
     }
     getProducts();
+    const getCate = async () => {
+      const { data } = await listCate()
+      setCategories(data);
+      console.log(categories);
+      
+    }
+    getCate();
   }, [])
   const removeItem = (id: Number | undefined) => {
     console.log(id);
     remove(id)
 
-    setProducts(products.filter(item => item.id !== id))
+    setProducts(products.filter(item => item._id !== id))
 
   }
   const removeItemAll = (idArray: number[]) => {
@@ -42,7 +53,7 @@ function App() {
     for (let index = 0; index < idArray.length; index++) {
       
       remove(idArray[index])
-      setProducts(products.filter(item => item.id !== idArray[index]))
+      setProducts(products.filter(item => item._id !== idArray[index]))
     }
 
     
@@ -55,7 +66,7 @@ function App() {
   }
   const onHanldeEdit = async (product: ProductType) => {
     const { data } = await update(product)
-    setProducts(products.map(item => item.id === data.id ? data : item))
+    setProducts(products.map(item => item._id === data.id ? data : item))
   }
 
   return (
@@ -65,7 +76,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<WebsiteLayout />}>
-            <Route index element={<HomePage />} />
+            <Route index element={<HomePage products={products} categories={categories} />} />
             <Route path="products"  >
               <Route index element={<ProductPage />} />
               <Route path=":id" element={<ProductDetail />} />
@@ -79,7 +90,7 @@ function App() {
 
             <Route path="dashboard" element={<h1>Admin Dashboard</h1>} />
             <Route path="products"  >
-              <Route index element={<ProductManager products={products} onRemove={removeItem} onRemoveAll={removeItemAll} />} />
+              <Route index element={<ProductManager products={products} categories={categories} onRemove={removeItem} onRemoveAll={removeItemAll} />} />
               <Route path="add" element={<ProductAdd onAdd={onHanldeAdd} />} />
               <Route path=":id/edit" element={<ProductEdit onEdit={onHanldeEdit} />} />
             </Route >

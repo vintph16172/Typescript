@@ -1,13 +1,17 @@
 import React, { Key, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ProductType } from './type/product'
-import { Row, Col, Space, Table, Button } from 'antd';
+import { CategoryType } from './type/category'
+import { Row, Col, Space, Table, Button, Input } from 'antd';
 import AdminPageHeader from '../components/AdminPageHeader'
+import { SearchOutlined } from '@ant-design/icons';
+
 
 
 
 type ProductManagerProps = {
   products: ProductType[],
+  categories: CategoryType[]
   onRemove: (id: number | undefined) => void,
   onRemoveAll: (id: number[]) => void
 }
@@ -15,8 +19,9 @@ type datakey = {
   key: Key
 }
 
-const ProductManager = ({ products, onRemove, onRemoveAll }: ProductManagerProps) => {
+const ProductManager = ({ products, categories, onRemove, onRemoveAll }: ProductManagerProps) => {
   // const { Column, ColumnGroup } = Table;
+  console.log(categories);
 
   const [selected, setSelected] = useState<number[]>([])
   const hasSelected = selected.length > 0;
@@ -25,35 +30,93 @@ const ProductManager = ({ products, onRemove, onRemoveAll }: ProductManagerProps
   const columns = [
     {
       title: "STT", dataIndex: "key", key: "key",
-      sorter: (record1:any, record2:any) => { return record1.key > record2.key },
-      filters:[
-        {text:"1",value:1},
-        {text:"2",value:2}
+      sorter: (record1: any, record2: any) => { return record1.key > record2.key },
+      // filters: [
+      //   { text: "1", value: 1 },
+      //   { text: "2", value: 2 }
+      // ],
+      // onFilter: (value: any, record: any) => {
+      //   return record.key === value
+      // }
+    },
+    { title: "ID", dataIndex: "_id", key: "_id" },
+    {
+      title: "Name", dataIndex: "name", key: "name",
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
+        return <div className="">
+          <Input
+            autoFocus
+            placeholder='Tìm Tên Sản Phẩm'
+            value={selectedKeys[0]}
+            onChange={(e) => {
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+              confirm({ closeDropDown: false })
+            }}
+            onPressEnter={() => { confirm() }}
+            onBlur={() => { confirm() }}
+
+
+          >
+
+          </Input>
+          <Button onClick={() => clearFilters()} type="primary" danger >Reset</Button>
+        </div>
+      },
+      filterIcon: () => {
+        return <SearchOutlined />
+      },
+      onFilter: (value: string, record: ProductType) => {
+        return record.name.toLowerCase().includes(value.toLowerCase())
+      }
+
+
+    },
+    {
+      title: "Category", dataIndex: "category", key: "category",
+      filters: categories.map(item => { return { text: item.name, value: item.name } }),
+      onFilter: (value: any, record: any) => {
+        return record.category == value
+      }
+
+
+    },
+    {
+      title: "Price", dataIndex: "price", key: "price",
+      sorter: (record1: any, record2: any) => { return record1.price > record2.price }
+    },
+    {
+      title: "View", dataIndex: "view", key: "view",
+      sorter: (record1: any, record2: any) => { return record1.view > record2.view }
+    },
+    {
+      title: "Status", dataIndex: "status", key: "status",
+      
+      filters: [
+        {text: "Hoạt Động",value: "Hoạt Động"},
+        {text: "Ẩn",value: "Ẩn"}
       ],
-      onFilter:(value:any,record:any)=>{
-        return record.key === value
+      onFilter: (value: any, record: any) => {
+        return record.status == value
       }
     },
-    { title: "ID", dataIndex: "id", key: "id" },
-    { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Price", dataIndex: "price", key: "price" },
     Table.EXPAND_COLUMN,
-    
-    
+
+
     {
       title: "Hành Động", key: "action", render: (text: string, record: ProductType) => (
         <Space align="center" size="middle">
           <Button type="primary" className='btn-update'>
-            <Link to={`/admin/products/${record.id}/edit`}>Sửa</Link>
+            <Link to={`/admin/products/${record._id}/edit`}>Sửa</Link>
+
           </Button>
-          <Button type="primary" danger onClick={() => onRemove(record.id)}>
+          <Button type="primary" danger onClick={() => onRemove(record._id)}>
             Xóa
           </Button>
         </Space>
       ),
     }
   ]
-  const dataTable = products.map((item, index) => { return { key: index + 1, id: item.id, name: item.name, price: item.price } })
+  const dataTable = products.map((item, index) => { return { key: index + 1, _id: item._id, name: item.name, category: categories.filter(cate => { return cate._id == item.category }).map((item) => { return item.name }), price: item.price, view: item.view, status: item.status == 0 ? "Ẩn" : "Hoạt Động" } })
 
   return (
     <div className="container">
@@ -62,7 +125,7 @@ const ProductManager = ({ products, onRemove, onRemoveAll }: ProductManagerProps
         {hasSelected ? `Đã chọn ${selected.length} hàng` : ''}
       </span>
       {selected.length > 0 ? <Button type="primary" danger onClick={() => onRemoveAll(selected)}>
-            Xóa Hết
+        Xóa Hết
       </Button> : ""}
       <Table className="m-6"
         rowSelection={{
@@ -73,19 +136,19 @@ const ProductManager = ({ products, onRemove, onRemoveAll }: ProductManagerProps
             // if(selected.length == 0){
             //   [...selected,1]
             // }
-           const a = dataTable.map((item, index)=> {
-             if(item.key == keys){
-               return item.id
-             }
-           })
-            
+            const a = dataTable.map((item, index) => {
+              if (item.key == keys) {
+                return item.id
+              }
+            })
+
             setSelected(keys)
             console.log(selected);
           },
           onSelect: (record) => {
-            
-            // console.log(record);
-            
+
+            console.log(record);
+
 
 
           },
