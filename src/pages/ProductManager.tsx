@@ -21,7 +21,8 @@ type datakey = {
 
 const ProductManager = ({ products, categories, onRemove, onRemoveAll }: ProductManagerProps) => {
   // const { Column, ColumnGroup } = Table;
-  console.log(categories);
+  console.log(products);
+    console.log(categories);
 
   const [selected, setSelected] = useState<number[]>([])
   const hasSelected = selected.length > 0;

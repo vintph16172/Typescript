@@ -10,7 +10,8 @@ type HomePageProps = {
 }
 
 const HomePage = ({ products, categories }: HomePageProps) => {
-
+    console.log(products);
+    console.log(categories);
     const productSortView = products.sort(function (a, b) {
         return b.view - a.view
     });
@@ -20,8 +21,13 @@ const HomePage = ({ products, categories }: HomePageProps) => {
         productView.push(productSortView[index])
         
     }
+    for (let index = 1; index < 5; index++) {
+        productNew.push(products[products.length - index])
+        
+    }
 
-    console.log(productView);
+    // console.log(productView);
+    console.log(productNew);
 
     const { Meta } = Card;
     const { TabPane } = Tabs;
@@ -242,8 +248,8 @@ const HomePage = ({ products, categories }: HomePageProps) => {
                         <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" />
                     </div>
 
-                    {productView.map((item) =>
-                        <div className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
+                    {productView?.map((item,index) =>
+                        <div key={index} className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
                             <Card
                                 hoverable
                                 // style={{ width: 378 }}
@@ -284,8 +290,8 @@ const HomePage = ({ products, categories }: HomePageProps) => {
                         <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" />
                     </div>
 
-                    {productView.map((item) =>
-                        <div className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
+                    {productNew?.map((item,index) =>
+                        <div key={index} className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
                             <Card
                                 hoverable
                                 // style={{ width: 378 }}
