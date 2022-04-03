@@ -1,37 +1,64 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+
 import { Carousel, Card, Tabs } from 'antd';
 import { AppleOutlined, AndroidOutlined } from '@ant-design/icons';
-import { ProductType } from './type/product';
-import { CategoryType } from './type/category';
-type HomePageProps = {
-    products: ProductType[],
-    categories: CategoryType[]
+import { useSelector, useDispatch } from 'react-redux'
+import { getProducts } from '../slice/ProductSlice';
+import { getCategory } from '../slice/CategorySlice';
 
-}
 
-const HomePage = ({ products, categories }: HomePageProps) => {
-    console.log(products);
-    console.log(categories);
-    const productSortView = products.sort(function (a, b) {
-        return b.view - a.view
-    });
-    const productView = []
-    const productNew = []
-    for (let index = 0; index < 4; index++) {
-        productView.push(productSortView[index])
-        
-    }
-    // for (let index = 1; index < 5; index++) {
-    //     productNew.push(products[products.length - index])
-        
-    // }
 
-    // console.log(productView);
-    // console.log(productNew);
+const HomePage = () => {
+    // require('react-dom');
+    // window.React2 = require('react');
 
+    // console.log(window.React1 === window.React2);
+
+    const products = useSelector(data => data.products.value)
+    const categories = useSelector(data => data.category.value)
+    const dispatch = useDispatch()
+    console.log('home', products);
+    console.log('home', categories);
     const { Meta } = Card;
     const { TabPane } = Tabs;
+    const productView = []
+    const productNew = []
+
+    if (products.length !== 0) {
+        const data2 = [...products];
+        console.log("d2", data2);
+
+        const productSortView = data2.sort(function (a, b) {
+            return b.view - a.view
+        });
+
+        for (let index = 0; index < 4; index++) {
+            productView.push(productSortView[index])
+
+        }
+        for (let index = 1; index < 5; index++) {
+            productNew.push(data2[data2.length - index])
+
+        }
+        console.log("View", productView);
+        console.log("new", productNew);
+    }
+
+
+
+
+    useEffect(() => {
+        console.log(123);
+        dispatch(getCategory())
+        dispatch(getProducts())
+
+    }, [])
+
     return (
+
+
+
+
         <div className="leading-normal tracking-normal text-white gradient">
             <Carousel autoplay dotPosition={"top"}>
                 <div className="pt-24">
@@ -248,7 +275,7 @@ const HomePage = ({ products, categories }: HomePageProps) => {
                         <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" />
                     </div>
 
-                    {/* {productView?.map((item,index) =>
+                    {productView?.map((item, index) =>
                         <div key={index} className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
                             <Card
                                 hoverable
@@ -273,7 +300,7 @@ const HomePage = ({ products, categories }: HomePageProps) => {
                                 />
                             </Card>
                         </div>
-                    )} */}
+                    )}
 
 
 
@@ -290,7 +317,7 @@ const HomePage = ({ products, categories }: HomePageProps) => {
                         <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" />
                     </div>
 
-                    {/* {productNew?.map((item,index) =>
+                    {productNew?.map((item, index) =>
                         <div key={index} className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
                             <Card
                                 hoverable
@@ -315,7 +342,7 @@ const HomePage = ({ products, categories }: HomePageProps) => {
                                 />
                             </Card>
                         </div>
-                    )} */}
+                    )}
 
 
 
@@ -352,6 +379,7 @@ const HomePage = ({ products, categories }: HomePageProps) => {
                                                 <div className="w-full font-bold text-xl text-gray-800 px-6">
                                                     Lorem ipsum dolor sit amet.
                                                 </div>
+
                                             } description={
                                                 <div className="">
                                                     <p className="text-gray-800 text-base px-6 mb-5">
@@ -570,7 +598,6 @@ const HomePage = ({ products, categories }: HomePageProps) => {
                 </button>
             </section>
         </div>
-
     )
 }
 
