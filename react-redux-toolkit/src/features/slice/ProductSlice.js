@@ -54,11 +54,17 @@ const productSlice = createSlice({
     name: "products",
     initialState:{
         value: [],
+        detail:{},
         selected:[],
         arr: [],
         breadcrumb: ""
     },
     reducers:{
+        changeDetail(state,action){
+            state.detail = action.payload 
+            
+            // console.log(action.payload);
+        },
         changeBreadcrumb(state,action){
             state.breadcrumb = action.payload 
             
@@ -101,6 +107,6 @@ const productSlice = createSlice({
     }
 })
 
-export const { onSelected,addId,changeBreadcrumb } = productSlice.actions
+export const { onSelected,addId,changeBreadcrumb,changeDetail } = productSlice.actions
 
 export default productSlice.reducer;

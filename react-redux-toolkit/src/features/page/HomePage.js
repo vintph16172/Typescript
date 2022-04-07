@@ -5,7 +5,7 @@ import { AppleOutlined, AndroidOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux'
 import { getProducts } from '../slice/ProductSlice';
 import { getCategory } from '../slice/CategorySlice';
-
+import { Link } from 'react-router-dom'
 
 
 const HomePage = () => {
@@ -292,9 +292,12 @@ const HomePage = () => {
                                         <p className="text-gray-800 text-base px-6 mb-5">
                                             {categories.filter(cate => { return cate._id == item.category }).map((item2) => { return item2.name })}
                                         </p>
-                                        <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                                            {item.price} VNĐ
-                                        </button>
+
+                                        <Link to={`products/${item._id}`} >
+                                            <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                                                {item.price} VNĐ
+                                            </button>
+                                        </Link>
                                     </div>
                                 }
                                 />
@@ -334,9 +337,11 @@ const HomePage = () => {
                                         <p className="text-gray-800 text-base px-6 mb-5">
                                             {categories.filter(cate => { return cate._id == item.category }).map((item2) => { return item2.name })}
                                         </p>
-                                        <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                                            {item.price} VNĐ
-                                        </button>
+                                        <Link to={`products/${item._id}`} >
+                                            <button className="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                                                {item.price} VNĐ
+                                            </button>
+                                        </Link>
                                     </div>
                                 }
                                 />
