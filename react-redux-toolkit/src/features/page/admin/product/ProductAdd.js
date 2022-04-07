@@ -3,82 +3,80 @@ import { useForm, Controller } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { detailProduct } from '../../../../api/product'
-import { Divider, Form, Input, Button, Select, Avatar, Upload } from "antd";
+import { Divider, Form, Input, Button, Checkbox, Upload, Select, Avatar } from 'antd';
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { getCategory } from '../../../slice/CategorySlice';
-import { editProducts } from '../../../slice/ProductSlice';
+import { addProducts } from '../../../slice/ProductSlice';
+import { v4 as uuidv4 } from 'uuid';
+
+const ProductAdd = () => {
+  const { Option } = Select;
+  const [form] = Form.useForm();
+  const { register, handleSubmit, formState: { errors }, reset, control } = useForm()
+  const categories = useSelector(data => data.category.value)
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const [fileList, setfileList] = useState([]);
+  console.log(id);
+
+  const onFinish = async (value) => {
+      console.log(value);
+      const file = fileList[0];
+
+      if (file) {
+          const CLOUDINARY_PRESET = "ypn4yccr";
+          const CLOUDINARY_API_URL =
+          "https://api.cloudinary.com/v1_1/vintph16172/image/upload"
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", CLOUDINARY_PRESET);
+
+          const { data } = await axios.post(CLOUDINARY_API_URL, formData, {
+              headers: {
+                  "Content-Type": "application/form-data"
+              }
+          });
+          value.image = data.url;
+          setfileList([]);
+      }
+
+      console.log(value);
+      dispatch(addProducts({id: uuidv4(), ...value}));
+
+      // navigate("/admin/products");
+  };
+
+  const onFinishFailed = (errorInfo) => {
+      console.log('Failed:', errorInfo);
+  };
+  const category = categories.map((item) => {
+      return {
+          id: item._id,
+          cate: item.name
+      };
+  });
+
+  useEffect(() => {
+      
+      dispatch(getCategory())
+      
+  }, [])
 
 
-const ProductEdit = () => {
-    const { register, handleSubmit, formState: { errors }, reset, control } = useForm()
-    const navigate = useNavigate()
-    const { id } = useParams();
-    const categories = useSelector(data => data.category.value)
-    const { Option } = Select;
-    const dispatch = useDispatch();
-    const [form] = Form.useForm();
-    const [fileList, setfileList] = useState([]);
-    console.log(id);
-
-    const category = categories.map((item) => {
-        return {
-            id: item._id,
-            cate: item.name
-        };
-    });
-
-    const onFinish = async (value) => {
-        console.log(value);
-        const file = fileList[0];
-  
-        if (file) {
-            const CLOUDINARY_PRESET = "ypn4yccr";
-            const CLOUDINARY_API_URL =
-            "https://api.cloudinary.com/v1_1/vintph16172/image/upload"
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("upload_preset", CLOUDINARY_PRESET);
-  
-            const { data } = await axios.post(CLOUDINARY_API_URL, formData, {
-                headers: {
-                    "Content-Type": "application/form-data"
-                }
-            });
-            value.image = data.url;
-            setfileList([]);
-        }
-  
-        console.log(value);
-        dispatch(editProducts(value));
-  
-        // navigate("/admin/products");
-    };
+  const normFile = (e) => {
+      console.log('Upload event:', e);
+      if (Array.isArray(e)) {
+          return e;
+      }
+      return e && e.fileList;
+  };
 
 
-
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
-
-    useEffect(() => {
-        const getProduct = async () => {
-            const { data } = await detailProduct(id)
-            console.log(data);
-
-            reset(data)
-            form.setFieldsValue(data);
-
-        }
-        getProduct()
-        dispatch(getCategory())
-    }, [])
-
-
-
-    return (
-        <div className="container">
-             <Form layout="vertical" onFinish={onFinish} form={form} >
+  return (
+      <div className="container">
+          <Form layout="vertical" onFinish={onFinish} >
               <Form.Item label="_id" name="_id" hidden={true}>
                   <Input />
               </Form.Item>
@@ -152,15 +150,15 @@ const ProductEdit = () => {
           </Form>
 
 
-            {/* <form action="" onSubmit={handleSubmit(onSubmit)}>
-                <input type="text"  {...register("name", { required: true })} />
-                {errors.name && <span>Không để trống</span>}
-                <input type="number" {...register('price', { required: true })} />
-                {errors.price && <span>Không để trống</span>}
-                <button>Edit</button>
-            </form> */}
-        </div>
-    )
+          {/* <form action="" onSubmit={handleSubmit(onSubmit)}>
+              <input type="text"  {...register("name", { required: true })} />
+              {errors.name && <span>Không để trống</span>}
+              <input type="number" {...register('price', { required: true })} />
+              {errors.price && <span>Không để trống</span>}
+              <button>Edit</button>
+          </form> */}
+      </div>
+  )
 }
 
-export default ProductEdit
+export default ProductAdd

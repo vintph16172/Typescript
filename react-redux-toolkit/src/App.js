@@ -12,6 +12,9 @@ import ProductEdit from './features/page/admin/product/ProductEdit';
 import SignIn from './features/page/SignIn';
 import SignUp from './features/page/SignUp';
 import Test from './features/page/Test';
+import ProductAdd from './features/page/admin/product/ProductAdd';
+import ProductDetail from './features/page/ProductDetail';
+import ProductPage from './features/page/ProductPage';
 
 function App() {
   return (
@@ -22,8 +25,8 @@ function App() {
         <Route path="/" element={<WebsiteLayout />} >
           <Route index element={<HomePage />} />
           <Route path="products">
-            <Route index element={<ListProduct />} />
-
+            <Route index element={<ProductPage />} />
+            <Route path=":id" element={<ProductDetail />} />
 
           </Route>
         </Route>
@@ -34,7 +37,7 @@ function App() {
           <Route path="dashboard" element={<h1>Admin Dashboard</h1>} />
           <Route path="products"  >
             <Route index element={<ListProduct />} />
-            {/* <Route path="add" element={<ProductAdd onAdd={onHanldeAdd} />} /> */}
+            <Route path="add/:id" element={<ProductAdd  />} />
             <Route path=":id/edit" element={<ProductEdit />} />
           </Route >
 

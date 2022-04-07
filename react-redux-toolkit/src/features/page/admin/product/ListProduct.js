@@ -7,6 +7,8 @@ import { Row, Col, Space, Table, Button, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { getCategory } from '../../../slice/CategorySlice';
 import AdminPageHeader from '../../../../compoments/AdminPageHeader';
+import { isAthenticate } from '../../../utils/localstorage'
+import { changeUserValue } from '../../../slice/UserSlice';
 
 
 const ListProduct = () => {
@@ -15,6 +17,9 @@ const ListProduct = () => {
   const selected = useSelector(data => data.products.selected)
   const arr = useSelector(data => data.products.arr)
   const breadcrumb = useSelector(data => data.products.breadcrumb)
+  const user = useSelector(data => data.user.value)
+  
+  console.log("User",user);
   const dispatch = useDispatch()
   const hasSelected = selected.length > 0;
 
@@ -119,11 +124,16 @@ const ListProduct = () => {
     dispatch(getProducts())
     dispatch(getCategory())
     dispatch(changeBreadcrumb("Sản Phẩm"))
+    dispatch(changeUserValue(isAthenticate()))
   }, [])
 
   return (
     <div className="container">
       <AdminPageHeader />
+      <Button type="primary" >
+            <Link to={`/admin/products/add/${user._id}`}>Sửa</Link>
+
+      </Button>
 
       <span style={{ marginLeft: 8 }}>
         {hasSelected ? `Đã chọn ${selected.length} hàng` : ''}

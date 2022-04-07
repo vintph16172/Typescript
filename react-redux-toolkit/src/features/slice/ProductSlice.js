@@ -1,5 +1,5 @@
 import { createSlice,createAsyncThunk }  from '@reduxjs/toolkit'
-import { listProduct, remove } from '../../api/product'
+import { listProduct, remove,update,add } from '../../api/product'
 
 export const getProducts = createAsyncThunk(
     "products/getProducts",
@@ -8,6 +8,23 @@ export const getProducts = createAsyncThunk(
         return data
     }
 )
+
+export const addProducts = createAsyncThunk(
+    "products/addProducts",
+    async (product)=>{
+        const { data } = await add(product)
+        return data
+    }
+)
+
+export const editProducts = createAsyncThunk(
+    "products/editProducts",
+    async (product)=>{
+        const { data } = await update(product)
+        return data
+    }
+)
+
 
 export const deleteProducts = createAsyncThunk(
     "products/deleteProducts",
@@ -64,6 +81,16 @@ const productSlice = createSlice({
         builder.addCase(deleteProducts.fulfilled, (state,action)=>{
             
             state.value = state.value.filter(item => item._id !== action.payload._id)
+            
+        })
+        builder.addCase(addProducts.fulfilled, (state,action)=>{
+            
+            state.value = [...state.value, action.payload]
+            
+        })
+        builder.addCase(editProducts.fulfilled, (state,action)=>{
+            
+            state.value = state.value.map(item => item._id === action.payload._id ? action.payload : item)
             
         })
         // builder.addCase(deleteAllProducts.fulfilled, (state,action)=>{
