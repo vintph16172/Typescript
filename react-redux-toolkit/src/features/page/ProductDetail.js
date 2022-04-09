@@ -18,7 +18,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch()
   const { Meta } = Card;
-  console.log(cart);
+  console.log('Detail',cart);
 
   const productRelate = []
   if (productsArr.length !== 0) {
@@ -52,7 +52,7 @@ const ProductDetail = () => {
     getProduct()
     dispatch(getCategory())
     dispatch(getProducts())
-    // dispatch(changeCartItem(CartLocal()))
+    dispatch(changeCartItem(CartLocal()))
     
   }, [id])
 

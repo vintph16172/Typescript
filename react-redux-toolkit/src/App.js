@@ -15,6 +15,8 @@ import Test from './features/page/Test';
 import ProductAdd from './features/page/admin/product/ProductAdd';
 import ProductDetail from './features/page/ProductDetail';
 import ProductPage from './features/page/ProductPage';
+import CategoryPage from './features/page/CategoryPage';
+import FormCheckOut from './features/page/FormCheckOut';
 
 function App() {
   return (
@@ -27,8 +29,13 @@ function App() {
           <Route path="products">
             <Route index element={<ProductPage />} />
             <Route path=":id" element={<ProductDetail />} />
+            
+          </Route>
+          <Route path="category">
+            <Route path=":id" element={<CategoryPage />} />
 
           </Route>
+          <Route path="checkout" element={<FormCheckOut />} />
         </Route>
 
         <Route path="admin" element={<PrivateRoute ><AdminLayout /></PrivateRoute>} >

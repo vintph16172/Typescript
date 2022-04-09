@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react';
 import { deleteProducts, getProducts,onSelected,addId,changeBreadcrumb } from '../../../slice/ProductSlice';
 import { Link } from 'react-router-dom'
-import { Row, Col, Space, Table, Button, Input } from 'antd';
+import { Row, Col, Space, Table, Button, Input, Avatar } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { getCategory } from '../../../slice/CategorySlice';
 import AdminPageHeader from '../../../../compoments/AdminPageHeader';
@@ -40,6 +40,11 @@ const ListProduct = () => {
       // }
     },
     { title: "ID", dataIndex: "_id", key: "_id" },
+    {
+      title: "Ảnh", dataIndex: "image", key: "image", render: (text, record) => (
+        <img className="w-28 " src={record.image} />
+      ),
+    },
     {
       title: "Name", dataIndex: "name", key: "name",
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
@@ -116,7 +121,7 @@ const ListProduct = () => {
       ),
     }
   ]
-  const dataTable = products.map((item, index) => { return { key: index + 1, _id: item._id, name: item.name, category: categories.filter(cate => { return cate._id == item.category }).map((item) => { return item.name }), price: item.price, view: item.view, status: item.status == 0 ? "Ẩn" : "Hoạt Động" } })
+  const dataTable = products.map((item, index) => { return { key: index + 1, _id: item._id,image: item.image, name: item.name, category: categories.filter(cate => { return cate._id == item.category }).map((item) => { return item.name }), price: item.price, view: item.view, status: item.status == 0 ? "Ẩn" : "Hoạt Động",desc: item.desc } })
 
 
 
@@ -222,7 +227,7 @@ const ListProduct = () => {
           ]
         }}
         expandable={{
-          expandedRowRender: record => <p>Alo</p>,
+          expandedRowRender: record => <p>{record.desc}</p>,
           // rowExpandable: record => record.key == 1
 
         }}

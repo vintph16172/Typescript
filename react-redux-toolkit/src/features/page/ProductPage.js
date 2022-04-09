@@ -3,15 +3,32 @@ import { List, Typography, Row, Col, Card } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
 import { getProducts } from '../slice/ProductSlice';
 import { getCategory } from '../slice/CategorySlice';
-import { Link } from 'react-router-dom'
+import { Link, useParams,useLocation, useSearchParams } from 'react-router-dom'
 
 const ProductPage = () => {
-
+  // const params = useParams()
+  // console.log("ProductPage-Params", params);
   const products = useSelector(data => data.products.value)
   const categories = useSelector(data => data.category.value)
   const dispatch = useDispatch()
   const { Meta } = Card;
+  let { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const a = query.getAll(search)
+  console.log(a,"a");
+  const price_gte = query.get('price_gte');
+  const price_lte = query.get('price_lte');
+  console.log(price_gte,price_lte,"param");
+  console.log(products,"products");
+  // if(price_gte && price_lte){
+  //   products
+  // }
 
+
+  const priceSort = [
+    <Link to={`/products?price_gte=${50000}&price_lte=${100000}`} >50.000 - 100.000</Link>,
+
+  ]
 
   useEffect(() => {
 
@@ -29,6 +46,16 @@ const ProductPage = () => {
           renderItem={item => (
             <List.Item>
               <Typography.Text mark>[ITEM]</Typography.Text> {item.name}
+            </List.Item>
+          )}
+        />
+        <List
+
+          bordered
+          dataSource={priceSort}
+          renderItem={item => (
+            <List.Item>
+              <Typography.Text mark>[ITEM]</Typography.Text> {item}
             </List.Item>
           )}
         />

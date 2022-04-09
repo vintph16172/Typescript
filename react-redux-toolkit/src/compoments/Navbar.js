@@ -1,33 +1,47 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink, Link } from 'react-router-dom';
-import { Menu, Dropdown, Row, Col } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Drawer, Button, Menu, Dropdown, Row, Col, Space, List, Avatar } from 'antd';
+import { DownOutlined, PlusOutlined, ShoppingCartOutlined, MinusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux'
+import { CartLocal } from '../features/utils/localstorage'
+import { changeCartItem, changeTotalQuantity, addItemToCart, removeItemFromCart, decreaseQty, increaseQty } from '../features/slice/CartSlice';
 
 const Navbar = () => {
     const cart = useSelector(data => data.cart.items)
-    console.log(cart);
+    const totalQuantity = useSelector(data => data.cart.totalQuantity)
+    const dispatch = useDispatch()
+    let totalProduct = 0
+    if (cart.length !== 0) {
+        cart.forEach((product) => {
+            totalProduct += product.price * product.quantity
+        })
+    }
+    // const cart = CartLocal()
+    console.log("Navbar", cart);
+    console.log("Navbar-TotalQuantity", totalQuantity);
+    const [visible, setVisible] = useState(false);
 
-    const menu = (
-        <Menu>
-            {cart?.map((item,index)=>
-                <Menu.Item>
-                <Row>
-                    <Col span={8}>
-                        <img className="w-24" src={item.image} alt="img product"/>
-                    </Col>
-                    <Col span={16}>{item.name}</Col>
-                    
-                </Row>
-            </Menu.Item>
-            
-            
-            )}
-            
-            
-        </Menu>
+    const showDrawer = () => {
+        setVisible(true);
+    };
 
-    );
+    const onClose = () => {
+        setVisible(false);
+    };
+
+
+    useEffect(() => {
+        dispatch(changeCartItem(CartLocal()))
+        let totalQuantityCart = 0
+        for (let index = 0; index < cart.length; index++) {
+
+            totalQuantityCart += cart[index].quantity
+        }
+        console.log("Navbar-totalQuantity", totalQuantityCart);
+        // dispatch(changeTotalQuantity())
+    }, [])
+
+
 
 
     return (
@@ -62,14 +76,49 @@ const Navbar = () => {
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
             </button> */}
-            <Dropdown overlay={menu}>
-                {/* <a className="ant-dropdown-link" >
-                    Hover me 
-                </a> */}
+            {/* <Dropdown overlay={menu}>
+               
                 <svg onClick={e => e.preventDefault()} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-            </Dropdown>
+            </Dropdown> */}
+            <>
+                <Button type="text" icon={<ShoppingCartOutlined />} onClick={showDrawer}>
+
+                </Button>
+                <Drawer title={<p className="m-0">Giỏ Hàng <ShoppingCartOutlined /></p>} placement="right" onClose={onClose} visible={visible}>
+                    <Menu>
+
+                        <List
+                            itemLayout="horizontal"
+                            dataSource={cart}
+                            renderItem={item => (
+                                <List.Item>
+                                    <List.Item.Meta
+                                        avatar={<Avatar shape="square" size={50} src={item.image} />}
+                                        title={<Link to={`/products/${item._id}`} >{item.name}</Link>}
+                                        description={
+                                            <div>
+                                                <p>{item.price} VNĐ</p>
+                                                <Button onClick={() => dispatch(increaseQty(item))} className='inline-block' type="text" icon={<PlusOutlined />} ></Button>
+                                                <p className='inline-block' >{item.quantity}</p>
+                                                <Button onClick={() => dispatch(decreaseQty(item))} className='inline-block' type="text" icon={<MinusOutlined />} ></Button>
+
+                                            </div>
+                                        }
+                                    />
+                                    <div><Button onClick={() => dispatch(removeItemFromCart(item._id))} className='inline-block' type="text" danger icon={<DeleteOutlined />} ></Button></div>
+                                </List.Item>
+                            )}
+                        />
+
+                        <Menu.Item danger>{totalProduct} VNĐ</Menu.Item>
+                        <Button type="primary" block>
+                            <Link to={`/checkout`} >Thanh Toán</Link>
+                        </Button>
+                    </Menu>
+                </Drawer>
+            </>
         </div>
     )
 }
