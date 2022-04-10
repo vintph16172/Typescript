@@ -24,7 +24,7 @@ const SignIn = () => {
             const { data } = await signIn(dataInputs)
             console.log(data);
             localStorage.setItem("user", JSON.stringify(data))
-            // navigate('/')
+            navigate('/')
 
         }
         signInForm()

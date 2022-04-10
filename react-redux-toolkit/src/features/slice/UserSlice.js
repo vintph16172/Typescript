@@ -9,10 +9,15 @@ const userSlice = createSlice({
     initialState:{
         value: {},
         
+        
     },
     reducers:{
         changeUserValue(state, action){
             state.value = action.payload
+        },
+        logOut(state, action){
+            state.value ={}
+            localStorage.removeItem('user')
         }
 
     },
@@ -20,7 +25,7 @@ const userSlice = createSlice({
         
     }
 })
-export const { changeUserValue } = userSlice.actions
+export const { changeUserValue,logOut } = userSlice.actions
 
 
 

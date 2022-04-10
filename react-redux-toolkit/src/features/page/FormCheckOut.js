@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { NavLink, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
+import emailjs from '@emailjs/browser';
 import { Button, Menu, Dropdown, Row, Col, Space, List, Avatar, Empty, Form, Input } from 'antd';
 import { DownOutlined, PlusOutlined, ShoppingCartOutlined, MinusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { CartLocal } from '../utils/localstorage'
 import { changeCartItem, changeTotalQuantity, addItemToCart, removeItemFromCart, decreaseQty, increaseQty } from '../slice/CartSlice';
 import { getCategory } from '../slice/CategorySlice';
+import { addCarts, addDetailCarts } from '../slice/CartSlice';
+import { isAthenticate } from '../utils/localstorage'
 
 const FormCheckOut = () => {
     const cart = useSelector(data => data.cart.items)
     const categories = useSelector(data => data.category.value)
     const totalQuantity = useSelector(data => data.cart.totalQuantity)
     const dispatch = useDispatch()
+    const form = useRef();
+
     let totalProduct = 0
     let totalCart = 0
     let shipping = 30000
@@ -28,7 +33,33 @@ const FormCheckOut = () => {
     console.log(categories, "CheckOut");
 
     const onFinish = (values) => {
+        const userData = isAthenticate()
         console.log('Success:', values);
+        console.log("ggg",form.current);
+        // values.email = userData ? userData.user._id : ""
+        values.total = totalCart
+        console.log(values);
+        emailjs.sendForm('service_07jt5rj', 'template_lrjyz7r', ".form-cart", 'user_ZaKeVGTP2Smo2Bo6p7SOr')
+            .then((result) => {
+                console.log(result);
+                console.log(result.text);
+            }, (error) => {
+                console.log(error.text);
+            });
+        dispatch(addCarts(values))
+            .then((result) => {
+                const { payload } = result
+                console.log(payload);
+                cart.forEach((item) => {
+                    const flag = { cart: payload._id, product: item._id, quantity: item.quantity, total: item.price * item.quantity }
+                    console.log("Flag", flag);
+                    dispatch(addDetailCarts(flag))
+                })
+
+
+            })
+
+
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -118,7 +149,7 @@ const FormCheckOut = () => {
                             <div class="p-4">
                                 <p class="mb-4 italic">If you have a coupon code, please enter it in the box below</p>
                                 <div class="justify-center md:flex">
-                                    <form action="" method="">
+                                    <form   action="" method="">
                                         <div class="flex items-center w-full h-13 pl-3 bg-white bg-gray-100 border rounded-full">
                                             <input type="coupon" name="code" id="coupon" placeholder="Apply coupon" value="90off"
                                                 class="w-full bg-gray-100 outline-none appearance-none focus:outline-none active:outline-none" />
@@ -137,7 +168,9 @@ const FormCheckOut = () => {
                                 <p class="mb-4 italic">If you have some information for the seller you can leave them in the box below</p>
                                 <textarea class="w-full h-24 p-2 bg-gray-100 rounded"></textarea>
                                 <Form
-                                    name="basic"
+                                    className='form-cart'
+                                    ref={form}
+                                    name="form-cart"
                                     labelCol={{
                                         span: 8,
                                     }}
@@ -152,12 +185,12 @@ const FormCheckOut = () => {
                                     autoComplete="off"
                                 >
                                     <Form.Item
-                                        label="Username"
-                                        name="username"
+                                        label="Họ và Tên"
+                                        name="name"
                                         rules={[
                                             {
                                                 required: true,
-                                                message: 'Please input your username!',
+                                                message: 'Không để trống!',
                                             },
                                         ]}
                                     >
@@ -165,17 +198,47 @@ const FormCheckOut = () => {
                                     </Form.Item>
 
                                     <Form.Item
-                                        label="Password"
-                                        name="password"
+                                        label="Email"
+                                        name="email"
                                         rules={[
                                             {
                                                 required: true,
-                                                message: 'Please input your password!',
+                                                message: 'Không để trống!',
                                             },
                                         ]}
                                     >
-                                        <Input/>
+                                        <Input />
                                     </Form.Item>
+
+                                    <Form.Item
+                                        label="Địa Chỉ"
+                                        name="address"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Không để trống!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+
+
+
+                                    <Form.Item
+                                        label="Số Điện Thoại"
+                                        name="phone"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Không để trống!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+
+
 
 
                                     <Form.Item

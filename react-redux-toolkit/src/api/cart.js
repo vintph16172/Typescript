@@ -5,8 +5,8 @@ export const listCart = ()=>{
     return instance.get(url)
 }
 
-export const listCartDetail = (id )=>{
-    const url = `/cart/${id}`
+export const listCartDetail = (email )=>{
+    const url = `/cart/${email}`
     return instance.get(url)
 }
 export const addCart = (cart) => {

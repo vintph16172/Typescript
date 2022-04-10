@@ -17,6 +17,7 @@ import ProductDetail from './features/page/ProductDetail';
 import ProductPage from './features/page/ProductPage';
 import CategoryPage from './features/page/CategoryPage';
 import FormCheckOut from './features/page/FormCheckOut';
+import OrderHistory from './features/page/OrderHistory'
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
 
           </Route>
           <Route path="checkout" element={<FormCheckOut />} />
+          <Route path="order/:id" element={<OrderHistory />} />
         </Route>
 
         <Route path="admin" element={<PrivateRoute ><AdminLayout /></PrivateRoute>} >

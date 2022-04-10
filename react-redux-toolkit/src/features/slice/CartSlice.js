@@ -12,8 +12,8 @@ export const getCarts = createAsyncThunk(
 
 export const getCartDetail = createAsyncThunk(
   "cart/getCartDetail",
-  async (id) => {
-    const { data } = await listCartDetail(id)
+  async (email) => {
+    const { data } = await listCartDetail(email)
     return data
   }
 )
@@ -93,6 +93,7 @@ const cartSlice = createSlice({
     items: [],
     listCart: [],
     listDetailCart:[],
+    orderHistory: [],
     totalQuantity: 0
   },
   reducers: {
@@ -102,6 +103,10 @@ const cartSlice = createSlice({
     changeTotalQuantity(state, action) {
 
       state.totalQuantity = action.payload
+    },
+    changeOrderHistory(state, action) {
+
+      state.orderHistory = action.payload
     },
 
     addItemToCart(state, action) {
@@ -154,6 +159,9 @@ const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getCarts.fulfilled, (state, action) => {
       state.listCart = action.payload
+    })
+    builder.addCase(getCartDetail.fulfilled, (state, action) => {
+      state.orderHistory = action.payload
     })
     builder.addCase(deleteCarts.fulfilled, (state, action) => {
 
