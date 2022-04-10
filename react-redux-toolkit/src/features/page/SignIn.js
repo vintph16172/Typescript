@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { signIn } from '../../api/user'
 
-import { Row, Col, Carousel } from 'antd';
+import { Row, Col, Carousel,message } from 'antd';
 import { Link } from 'react-router-dom';
 
 
@@ -24,6 +24,7 @@ const SignIn = () => {
             const { data } = await signIn(dataInputs)
             console.log(data);
             localStorage.setItem("user", JSON.stringify(data))
+            message.success('Đăng Nhập Thành Công!');
             navigate('/')
 
         }

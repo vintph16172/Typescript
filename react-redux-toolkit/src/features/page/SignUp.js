@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { signUp } from '../../api/user'
-import { Row, Col, Carousel } from 'antd';
+import { Row, Col, Carousel,message } from 'antd';
 
 
 // -------------------------IMAGE-------------------------
@@ -19,6 +19,7 @@ const SignUp = () => {
         signUp(data)
 
         console.log(data);
+        message.success('Đăng Ký Thành Công!');
         navigate('/signin')
 
 

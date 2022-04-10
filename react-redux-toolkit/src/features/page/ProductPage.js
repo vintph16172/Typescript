@@ -1,33 +1,40 @@
 import React, { useEffect } from 'react'
 import { List, Typography, Row, Col, Card } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
-import { getProducts } from '../slice/ProductSlice';
+import { getProducts,getProductsQuery } from '../slice/ProductSlice';
 import { getCategory } from '../slice/CategorySlice';
 import { Link, useParams,useLocation, useSearchParams } from 'react-router-dom'
 
 const ProductPage = () => {
-  // const params = useParams()
-  // console.log("ProductPage-Params", params);
+  const params = useParams()
+  console.log("ProductPage-Params", params);
   const products = useSelector(data => data.products.value)
+  const productsQuery = useSelector(data => data.products.valueQuery)
   const categories = useSelector(data => data.category.value)
   const dispatch = useDispatch()
   const { Meta } = Card;
   let { search } = useLocation();
   const query = new URLSearchParams(search);
   const a = query.getAll(search)
-  console.log(a,"a");
+  if(a){
+    console.log(a,"a");
+    console.log("616516515");
+  }else{
+    console.log("ádasdasfsaf");
+  }
+
   const price_gte = query.get('price_gte');
   const price_lte = query.get('price_lte');
   console.log(price_gte,price_lte,"param");
   console.log(products,"products");
-  // if(price_gte && price_lte){
-  //   products
-  // }
+  console.log(productsQuery,"productsQuery");
 
 
   const priceSort = [
-    <Link to={`/products?price_gte=${50000}&price_lte=${100000}`} >50.000 - 100.000</Link>,
-
+    <Link to={`/products?price_gte=${50000}&price_lte=${100000}`} onClick={() =>dispatch(getProductsQuery(`price_gte=${50000}&price_lte=${100000}`))}>50.000 - 100.000</Link>,
+    <Link to={`/products?price_gte=${50000}&price_lte=${100000}`} onClick={() =>dispatch(getProductsQuery(`price_gte=${100000}&price_lte=${200000}`))}>100.000 - 200.000</Link>,
+    <Link to={`/products?price_gte=${50000}&price_lte=${100000}`} onClick={() =>dispatch(getProductsQuery(`price_gte=${20000}&price_lte=${500000}`))}>200.000 - 500.000</Link>,
+    <Link to={`/products?price_gte=${50000}&price_lte=${100000}`} onClick={() =>dispatch(getProductsQuery(`price_gte=${500000}&price_lte=${1000000}`))}>500.000 - 1.000.000</Link>,
   ]
 
   useEffect(() => {
@@ -71,7 +78,7 @@ const ProductPage = () => {
             },
             pageSize: 8,
           }}
-          dataSource={products}
+          dataSource={productsQuery.length !== 0 ? productsQuery : products }
 
           renderItem={item => (
 

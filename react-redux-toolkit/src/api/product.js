@@ -3,7 +3,11 @@ import { isAthenticate } from '../features/utils/localstorage'
 
 // const { token , user} = isAthenticate()
 
-export const listProduct = () => {
+export const listProduct = (query) => {
+    if(query){
+        const url = `/products?${query}`
+        return instance.get(url)
+    }
     const url = `/products`
     return instance.get(url)
 }

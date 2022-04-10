@@ -33,7 +33,7 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div className="flex-1">
-                        <p className="uppercase text-gray-500 md:mb-6">Legal</p>
+                        <p className="uppercase text-gray-500 md:mb-6">Chính Sách</p>
                         <ul className="list-reset mb-6">
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                                 <a href="#" className="no-underline hover:underline text-gray-800 hover:text-pink-500">Terms</a>
@@ -44,7 +44,7 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div className="flex-1">
-                        <p className="uppercase text-gray-500 md:mb-6">Social</p>
+                        <p className="uppercase text-gray-500 md:mb-6">Kết Nối</p>
                         <ul className="list-reset mb-6">
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                                 <a href="#" className="no-underline hover:underline text-gray-800 hover:text-pink-500">Facebook</a>
@@ -58,7 +58,7 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div className="flex-1">
-                        <p className="uppercase text-gray-500 md:mb-6">Company</p>
+                        <p className="uppercase text-gray-500 md:mb-6">Doanh Nghiệp</p>
                         <ul className="list-reset mb-6">
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                                 <a href="#" className="no-underline hover:underline text-gray-800 hover:text-pink-500">Official Blog</a>

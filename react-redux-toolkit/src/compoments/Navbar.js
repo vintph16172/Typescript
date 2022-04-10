@@ -15,8 +15,8 @@ const Navbar = () => {
     const dispatch = useDispatch()
     const user = useSelector(data => data.user.value)
     let totalProduct = 0
-    if (cart.length !== 0) {
-        cart.forEach((product) => {
+    if (cart?.length !== 0) {
+        cart?.forEach((product) => {
             totalProduct += product.price * product.quantity
         })
     }
@@ -64,12 +64,12 @@ const Navbar = () => {
         dispatch(changeCartItem(CartLocal()))
         dispatch(getCategory())
         dispatch(changeUserValue(isAthenticate()))
-        let totalQuantityCart = 0
-        for (let index = 0; index < cart.length; index++) {
+        // let totalQuantityCart = 0
+        // for (let index = 0; index < cart.length; index++) {
 
-            totalQuantityCart += cart[index].quantity
-        }
-        console.log("Navbar-totalQuantity", totalQuantityCart);
+        //     totalQuantityCart += cart[index].quantity
+        // }
+        // console.log("Navbar-totalQuantity", totalQuantityCart);
         // dispatch(changeTotalQuantity())
     }, [])
 
