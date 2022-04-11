@@ -18,6 +18,7 @@ import ProductPage from './features/page/ProductPage';
 import CategoryPage from './features/page/CategoryPage';
 import FormCheckOut from './features/page/FormCheckOut';
 import OrderHistory from './features/page/OrderHistory'
+import ListCategory from './features/page/admin/category/ListCategory';
 
 function App() {
   return (
@@ -44,10 +45,17 @@ function App() {
           <Route index element={<Navigate to="dashboard" />} />
 
           <Route path="dashboard" element={<h1>Admin Dashboard</h1>} />
+
           <Route path="products"  >
             <Route index element={<ListProduct />} />
             <Route path="add/:id" element={<ProductAdd  />} />
             <Route path=":id/edit" element={<ProductEdit />} />
+          </Route >
+
+          <Route path="category"  >
+            <Route index element={<ListCategory />} />
+            {/* <Route path="add/:id" element={<ProductAdd  />} />
+            <Route path=":id/edit" element={<ProductEdit />} /> */}
           </Route >
 
         </Route>

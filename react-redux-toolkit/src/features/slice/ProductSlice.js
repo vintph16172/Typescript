@@ -12,9 +12,12 @@ export const getProducts = createAsyncThunk(
 export const getProductsQuery = createAsyncThunk(
     "products/getProductsQuery",
     async (query) => {
-        const { data } = await listProduct(query)
-        return data
-
+        if (query) {
+            const { data } = await listProduct(query)
+            return data
+        } else {
+            return []
+        }
     }
 )
 

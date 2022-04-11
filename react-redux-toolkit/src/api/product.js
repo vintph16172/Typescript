@@ -5,7 +5,7 @@ import { isAthenticate } from '../features/utils/localstorage'
 
 export const listProduct = (query) => {
     if(query){
-        const url = `/products?${query}`
+        const url = `/products${query}`
         return instance.get(url)
     }
     const url = `/products`

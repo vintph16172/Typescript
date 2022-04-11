@@ -1,6 +1,5 @@
 import React,{useState} from 'react'
 import { Link, Outlet } from 'react-router-dom'
-
 import { Layout, Menu, Breadcrumb, Avatar, Image } from 'antd';
 import {
     DesktopOutlined,
@@ -9,6 +8,7 @@ import {
     TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
+import logo from '../../img/logo.png'
 
 
 const AdminLayout = () => {
@@ -26,13 +26,15 @@ const AdminLayout = () => {
         // <SiderDemo />
         <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible collapsed={collapsed} onCollapse={() => { setCollapsed(!collapsed) }}>
-                <div className="logo" />
-                <img src="../../img/logo.png" alt="" />
+                <div className="logo flex justify-center py-2" >
+                    <img src={logo} alt="" className="h-12" />
+                </div>
+               
 
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
 
                     <Menu.Item key="1" icon={<PieChartOutlined />}>
-                        Option 1
+                        <Link to={`/admin/products`} >Sản Phẩm</Link>
                     </Menu.Item>
                     <Menu.Item key="2" icon={<DesktopOutlined />}>
                         Option 2

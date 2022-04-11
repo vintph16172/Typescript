@@ -151,7 +151,7 @@ const FormCheckOut = () => {
                                 <p class="mb-4 italic">Nếu Bạn Có Code Giảm Giá Hãy Nhập Ngay Để Nhận Ưu Đãi!</p>
                                 <div class="justify-center md:flex">
                                     <form action="" method="">
-                                        <div class="flex items-center w-full h-13 pl-3 bg-white bg-gray-100 border rounded-full">
+                                        <div class="flex items-center w-full h-13 pl-3  bg-gray-100 border rounded-full">
                                             <input type="coupon" name="code" id="coupon" placeholder="Apply coupon" value="90off"
                                                 class="w-full bg-gray-100 outline-none appearance-none focus:outline-none active:outline-none" />
                                             <button type="submit" class="text-sm flex items-center px-3 py-1 text-white bg-gray-800 rounded-full outline-none md:px-4 hover:bg-gray-700 focus:outline-none active:outline-none">
