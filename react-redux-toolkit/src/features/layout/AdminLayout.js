@@ -37,9 +37,15 @@ const AdminLayout = () => {
                         <Link to={`/admin/products`} >Sản Phẩm</Link>
                     </Menu.Item>
                     <Menu.Item key="2" icon={<DesktopOutlined />}>
-                        Option 2
+                        <Link to={`/admin/category`} >Danh Mục</Link>
                     </Menu.Item>
-                    <SubMenu key="sub1" icon={<UserOutlined />} title="User">
+                    <Menu.Item key="3" icon={<DesktopOutlined />}>
+                        <Link to={`/admin/users`} >Người Dùng</Link>
+                    </Menu.Item>
+                    <Menu.Item key="4" icon={<DesktopOutlined />}>
+                        <Link to={`/admin/cart`} >Đơn Hàng</Link>
+                    </Menu.Item>
+                    {/* <SubMenu key="sub1" icon={<UserOutlined />} title="User">
                         <Menu.Item key="3">Tom</Menu.Item>
                         <Menu.Item key="4">Bill</Menu.Item>
                         <Menu.Item key="5">Alex</Menu.Item>
@@ -47,10 +53,8 @@ const AdminLayout = () => {
                     <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
                         <Menu.Item key="6">Team 1</Menu.Item>
                         <Menu.Item key="8">Team 2</Menu.Item>
-                    </SubMenu>
-                    <Menu.Item key="9" icon={<FileOutlined />}>
-                        Files
-                    </Menu.Item>
+                    </SubMenu> */}
+                  
                 </Menu>
             </Sider>
             <Layout className="site-layout">

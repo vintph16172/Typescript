@@ -4,6 +4,6 @@ export const isAthenticate =  ()=>{
 }
 
 export const CartLocal =  ()=>{
-    if(!localStorage.getItem("cart")) return
+    if(!localStorage.getItem("cart")) return []
     return JSON.parse(localStorage.getItem("cart"))
 }

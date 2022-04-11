@@ -1,11 +1,11 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react';
-import { deleteProducts, getProducts,addId,changeBreadcrumb } from '../../../slice/ProductSlice';
 import { Link } from 'react-router-dom'
 import { Row, Col, Space, Table, Button, Input, Avatar } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { getCategory,onSelected } from '../../../slice/CategorySlice';
+import { changeBreadcrumb } from '../../../slice/ProductSlice';
+import { getCategory,onSelected,deleteCategory } from '../../../slice/CategorySlice';
 import AdminPageHeader from '../../../../compoments/AdminPageHeader';
 import { isAthenticate } from '../../../utils/localstorage'
 import { changeUserValue } from '../../../slice/UserSlice';
@@ -77,7 +77,7 @@ const ListCategory = () => {
             <Link to={`/admin/category/${record._id}/edit`}>Sửa</Link>
 
           </Button>
-          <Button type="primary" danger onClick={() => dispatch(deleteProducts(record._id))}>
+          <Button type="primary" danger onClick={() => dispatch(deleteCategory(record._id))}>
             Xóa
           </Button>
         </Space>
@@ -98,8 +98,8 @@ const ListCategory = () => {
   return (
     <div className="container">
       <AdminPageHeader />
-      <Button type="primary" >
-            <Link to={`/admin/category/add/${user._id}`}>Sửa</Link>
+      <Button type="primary" className="ml-6" >
+            <Link to={`/admin/category/add/${user?.user?._id}`}>Thêm</Link>
 
       </Button>
 
@@ -107,7 +107,7 @@ const ListCategory = () => {
         {hasSelected ? `Đã chọn ${selected.length} hàng` : ''}
       </span>
 
-      {selected.length > 0 ? <Button type="primary" danger onClick={() => deleteProducts(arr)}>
+      {selected.length > 0 ? <Button type="primary" danger onClick={() => deleteCategory(arr)}>
         Xóa Hết
       </Button> : ""}
 

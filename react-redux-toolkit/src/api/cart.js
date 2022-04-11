@@ -17,6 +17,8 @@ export const addCart = (cart) => {
 
 export const updateCart = (cart) => {
     const url = `/cart/${cart._id}`
+    console.log("url", url);
+    console.log("api Cart", cart);
     return instance.put(url, cart)
 }
 export const removeCart = (id) => {

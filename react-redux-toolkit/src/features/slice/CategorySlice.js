@@ -58,6 +58,11 @@ const categorySlice = createSlice({
 
             // console.log(action.payload);
         },
+        changeBreadcrumb(state, action) {
+            state.breadcrumb = action.payload
+
+            // console.log(action.payload);
+        },
     },
     extraReducers:(builder)=>{
         builder.addCase(getCategory.fulfilled, (state,action)=>{
@@ -83,6 +88,6 @@ const categorySlice = createSlice({
     }
 
 })
-export const { onSelected } = categorySlice.actions
+export const { onSelected,changeBreadcrumb } = categorySlice.actions
 
 export default categorySlice.reducer

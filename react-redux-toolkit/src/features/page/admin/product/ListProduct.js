@@ -115,7 +115,7 @@ const ListProduct = () => {
 
           </Button>
           <Button type="primary" danger onClick={() => dispatch(deleteProducts(record._id))}>
-            Xóa
+            Xóa 
           </Button>
         </Space>
       ),
@@ -135,8 +135,8 @@ const ListProduct = () => {
   return (
     <div className="container">
       <AdminPageHeader />
-      <Button type="primary" >
-            <Link to={`/admin/products/add/${user._id}`}>Sửa</Link>
+      <Button type="primary"  className="ml-6" >
+            <Link to={`/admin/products/add/${user?.user?._id}`}>Thêm</Link>
 
       </Button>
 

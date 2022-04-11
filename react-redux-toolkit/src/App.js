@@ -11,7 +11,7 @@ import AdminLayout from './features/layout/AdminLayout';
 import ProductEdit from './features/page/admin/product/ProductEdit';
 import SignIn from './features/page/SignIn';
 import SignUp from './features/page/SignUp';
-import Test from './features/page/Test';
+
 import ProductAdd from './features/page/admin/product/ProductAdd';
 import ProductDetail from './features/page/ProductDetail';
 import ProductPage from './features/page/ProductPage';
@@ -19,6 +19,10 @@ import CategoryPage from './features/page/CategoryPage';
 import FormCheckOut from './features/page/FormCheckOut';
 import OrderHistory from './features/page/OrderHistory'
 import ListCategory from './features/page/admin/category/ListCategory';
+import CategoryAdd from './features/page/admin/category/CategoryAdd';
+import CategoryEdit from './features/page/admin/category/CategoryEdit';
+import ListUser from './features/page/admin/user/ListUser'
+import ListCart from './features/page/admin/cart/ListCart';
 
 function App() {
   return (
@@ -54,13 +58,15 @@ function App() {
 
           <Route path="category"  >
             <Route index element={<ListCategory />} />
-            {/* <Route path="add/:id" element={<ProductAdd  />} />
-            <Route path=":id/edit" element={<ProductEdit />} /> */}
+            <Route path="add/:id" element={<CategoryAdd  />} />
+            <Route path=":id/edit" element={<CategoryEdit />} />
           </Route >
 
-        </Route>
+          <Route path='users' element={<ListUser />} />
+          <Route path='cart' element={<ListCart />} />
 
-        <Route path="/test" element={<Test />} />
+
+        </Route>
 
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />

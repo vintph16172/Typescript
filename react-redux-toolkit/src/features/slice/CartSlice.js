@@ -92,7 +92,8 @@ const cartSlice = createSlice({
   initialState: {
     items: [],
     listCart: [],
-    listDetailCart:[],
+    listDetailCart: [],
+    selected: [],
     orderHistory: [],
     totalQuantity: 0
   },
@@ -103,6 +104,11 @@ const cartSlice = createSlice({
     changeTotalQuantity(state, action) {
 
       state.totalQuantity = action.payload
+    },
+    onSelected(state, action) {
+      state.selected = action.payload
+
+      // console.log(action.payload);
     },
     changeOrderHistory(state, action) {
 
@@ -142,16 +148,9 @@ const cartSlice = createSlice({
       localStorage.setItem('cart', JSON.stringify(state.items));
     },
     removeItemFromCart(state, action) {
-      // state.totalQuantity--;
       const id = action.payload;
-      // const existingItem = state.items.find((item) => item.id === id);
-      // if (existingItem.quantity === 1) {
       const currentProduct = state.items.find(item => item._id == action.payload._id);
       state.items = state.items.filter((item) => item._id !== id);
-      // } else {
-      //   existingItem.quantity--;
-      //   existingItem.totalPrice -= existingItem.price;
-      // }
 
       localStorage.setItem('cart', JSON.stringify(state.items));
     }
@@ -207,5 +206,5 @@ const cartSlice = createSlice({
   }
 });
 
-export const { changeCartItem, changeTotalQuantity, addItemToCart, removeItemFromCart, decreaseQty, increaseQty } = cartSlice.actions;
+export const { onSelected,changeCartItem, changeTotalQuantity, addItemToCart, removeItemFromCart, decreaseQty, increaseQty } = cartSlice.actions;
 export default cartSlice.reducer;

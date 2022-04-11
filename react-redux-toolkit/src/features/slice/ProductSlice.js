@@ -41,13 +41,13 @@ export const editProducts = createAsyncThunk(
 export const deleteProducts = createAsyncThunk(
     "products/deleteProducts",
     async (id) => {
-        if (id.length > 0) {
-            for (let index = 0; index < id.length; index++) {
-                const { data } = await remove(id[index])
-                return data
+        // if (id.length > 0) {
+        //     for (let index = 0; index < id.length; index++) {
+        //         const { data } = await remove(id[index])
+        //         return data
 
-            }
-        }
+        //     }
+        // }
         const { data } = await remove(id)
         return data
     }

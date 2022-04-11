@@ -146,7 +146,7 @@ const Navbar = () => {
                                 )}
                             />
 
-                            <Menu.Item danger>{totalProduct} VNĐ</Menu.Item>
+                            <Menu.Item >Tổng Cộng: {totalProduct} VNĐ</Menu.Item>
                             <Button type="primary" block>
                                 <Link to={`/checkout`} >Thanh Toán</Link>
                             </Button>
