@@ -1,5 +1,6 @@
 import React from 'react'
 import  Navbar  from './Navbar'
+import { Link } from 'react-router-dom'
 import logo from '../img/logo.png'
 
 
@@ -18,7 +19,8 @@ const Header = () => {
               />
             </svg>
             LANDING */}
-            <img src={logo} alt="" className='h-20' />
+            <Link to={`/`} ><img src={logo} alt="" className='h-20' /></Link>
+            
           </a>
         </div>
         <div className="block lg:hidden pr-4">
