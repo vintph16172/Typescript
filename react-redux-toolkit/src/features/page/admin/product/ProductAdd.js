@@ -52,12 +52,7 @@ const ProductAdd = () => {
     const onFinishFailed = (errorInfo) => {
         message.warning('Thêm Không Thành Công!');
     };
-    const category = categories.map((item) => {
-        return {
-            id: item._id,
-            cate: item.name
-        };
-    });
+  
 
     useEffect(() => {
 
@@ -85,36 +80,36 @@ const ProductAdd = () => {
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Tên san pham"
+                        label="Tên Sản Phẩm"
                         name="name"
-                        rules={[{ required: true }]}
+                        rules={[{ required: true, message: 'Không để Trống!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Gias san pham"
+                        label="Giá Sản Phẩm"
                         name="price"
-                        rules={[{ required: true }]}
+                        rules={[{ required: true, message: 'Không để Trống!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Mô tả sản phẩm"
+                        label="Mô tả Sản Phẩm"
                         name="desc"
-                        rules={[{ required: true }]}
+                        rules={[{ required: true, message: 'Không để Trống!' }]}
                     >
                         <Input.TextArea />
                     </Form.Item>
 
                     <Form.Item
-                        label="Danh mục sản phẩm"
-                        name="cate"
-                        rules={[{ required: true }]}
+                        label="Danh mục Sản Phẩm"
+                        name="category"
+                        rules={[{ required: true, message: 'Không để Trống!' }]}
                     >
                         <Select >
 
-                            {category?.map((item) => (
-                                <Option key={item.id} value={item.cate}>
+                            {categories?.map((item,index) => (
+                                <Option key={index+1} value={item._id}>
                                     {item.name}
                                 </Option>
                             ))}

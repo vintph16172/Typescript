@@ -68,7 +68,7 @@ const AdminLayout = () => {
                         < Outlet />
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                <Footer style={{ textAlign: 'center' }}>FastFood ©2022 Created by vintph16172</Footer>
             </Layout>
         </Layout>
     )

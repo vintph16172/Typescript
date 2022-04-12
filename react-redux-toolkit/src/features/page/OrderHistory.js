@@ -123,9 +123,11 @@ const OrderHistory = () => {
         {
             title: "Hành Động", key: "action", render: (text, record) => (
                 <Space align="center" size="middle">
-                    <Button type="primary" danger onClick={() => dispatch(deleteProducts(record._id))}>
+                    {record.status == "Đang Giao Hàng" ? <Button type="primary" danger onClick={() => dispatch(deleteProducts(record._id))}>
                         Xóa
-                    </Button>
+                    </Button> : <Button type="primary" disabled danger >
+                        Xóa
+                    </Button>}
                 </Space>
             ),
         }
@@ -204,26 +206,6 @@ const OrderHistory = () => {
 
     const dataTable = order?.cart?.map((item, index) => { return { key: index + 1, _id: item._id, name: item.name, address: item.address, phone: item.phone, total: item.total + " VNĐ", status: item.status == 0 ? "Đang Giao Hàng" : "Giao Hàng Thành Công" } })
 
-    // order?.cart?.map(cart => {
-    //     order.detailCart.map(item => {
-    //         if (cart._id == item.cart._id) {
-
-    //             detailCart.push(item)
-    //             console.log("detailCart", detailCart);
-    //             return products.map(item2 => {
-    //                 if (item.product == item2._id) {
-    //                     const DetailCartTable = detailCart.map((item, index) => { return { key: index + 1, _id: item._id, image: item2.image, name: item2.name, category: categories.filter(cate => { return cate._id == item2.category }).map((item3) => { return item3.name }), price: item2.price, quantity: item.quantity, total: item.total } })
-    //                     console.log(DetailCartTable);
-    //                 }
-    //             })
-
-    //         }
-    //     })
-    // })
-
-
-
-
 
     useEffect(() => {
 
@@ -243,32 +225,6 @@ const OrderHistory = () => {
                 expandable={{
                     expandedRowRender: record => {
 
-                        // return order.detailCart.map(item => {
-                        //     if (record._id == item.cart._id) {
-                        //         // dispatch(getDetailCartByID(item._id))
-                        //         // .then((result)=>{
-                        //         //    console.log(result.payload);
-                        //         // })
-                        //         const data = [
-
-                        //         ];
-                        //         data.push(item)
-
-                        //         return <List
-                        //             header={<div>Header</div>}
-                        //             footer={<div>Footer</div>}
-                        //             bordered
-                        //             dataSource={data}
-                        //             renderItem={item => (
-                        //                 <List.Item>
-                        //                     <Typography.Text mark>[ITEM]</Typography.Text> {item._id}
-                        //                 </List.Item>
-                        //             )}
-                        //         />
-                        //     }
-                        // })
-
-
                         return order.detailCart.map(item => {
 
                             const detailCart = []
@@ -281,15 +237,14 @@ const OrderHistory = () => {
                                         const DetailCartTable = detailCart.map((item, index) => { return { key: index + 1, _id: item._id, image: item2.image, name: item2.name, category: categories.filter(cate => { return cate._id == item2.category }).map((item3) => { return item3.name }), price: item2.price, quantity: item.quantity, total: item.total } })
                                         return <Table className="m-6"
 
-                                            // pagination={{ position: none }}
+                                            pagination={false}
                                             dataSource={DetailCartTable}
                                             columns={columns2}
                                             bordered
-                                            // title={() => 'Header'}
-                                            footer={() => { return <span>Hiển thị 10/{products.length}</span> }}
+                                            title={() => 'Chi Tiết Đơn Hàng'}
                                         />
 
-                                      
+
 
                                     }
                                 })

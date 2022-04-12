@@ -21,7 +21,12 @@ const ListCart = () => {
     const user = useSelector(data => data.user.value)
     const cart = useSelector(data => data.cart.listCart)
     const cartDetail = useSelector(data => data.cart.listDetailCart)
-
+    let totalSale = 0
+    if (cart?.length !== 0) {
+        cart?.forEach((item) => {
+            totalSale += item.total 
+        })
+    }
     console.log("Cart", cart);
     console.log("CartDetail", cartDetail);
     console.log("User", user);
@@ -139,14 +144,14 @@ const ListCart = () => {
                         console.log(recordUpdate);
                         dispatch(editCarts(recordUpdate))
                     }}>
-                        <CheckCircleOutlined /> 0
+                        <CheckCircleOutlined /> 
                     </Button> : <Button type="primary"  className='btn-update' onClick={() => {
                         const recordUpdate = record
                         recordUpdate.status = 1
                         console.log(recordUpdate);
                         dispatch(editCarts(recordUpdate))
                     }}>
-                        <EnvironmentOutlined /> 1
+                        <EnvironmentOutlined /> 
                     </Button>}
 
 
@@ -225,7 +230,7 @@ const ListCart = () => {
 
     ]
 
-    const dataTable = cart?.map((item, index) => { return { key: index + 1, _id: item._id, name: item.name,email: item.email, address: item.address, phone: item.phone, total: item.total + " VNĐ", status: item.status == 0 ? "Đang Giao Hàng" : "Giao Hàng Thành Công" } })
+    const dataTable = cart?.map((item, index) => { return { key: index + 1, _id: item._id, name: item.name,email: item.email, address: item.address, phone: item.phone, total: item.total , status: item.status == 0 ? "Đang Giao Hàng" : "Giao Hàng Thành Công" } })
 
     useEffect(() => {
         dispatch(getCarts())
@@ -249,7 +254,7 @@ const ListCart = () => {
             </Button> : ""}
 
 
-            <Table className="mt-28 mx-6"
+            <Table size="small" className="mt-6 mx-6"
                 rowSelection={{
 
                     selectedRowKeys: selected,
@@ -321,12 +326,12 @@ const ListCart = () => {
                                         const DetailCartTable = detailCart.map((item, index) => { return { key: index + 1, _id: item._id, image: item2.image, name: item2.name, category: categories.filter(cate => { return cate._id == item2.category }).map((item3) => { return item3.name }), price: item2.price, quantity: item.quantity, total: item.total } })
                                         return <Table className="m-6"
 
-                                            // pagination={{ position: none }}
+                                            pagination={false }
                                             dataSource={DetailCartTable}
                                             columns={columns2}
                                             bordered
-                                            // title={() => 'Header'}
-                                            footer={() => { return <span>Hiển thị 10/{products.length}</span> }}
+                                            title={() => 'Chi Tiết Đơn Hàng'}
+                                           
                                         />
 
 
@@ -348,8 +353,8 @@ const ListCart = () => {
                 dataSource={dataTable}
                 columns={columns}
                 bordered
-                // title={() => 'Header'}
-                footer={() => { return <span>Hiển thị 10/{products.length}</span> }}
+                
+                footer={() => { return <span>Tổng Doanh Thu: {totalSale? totalSale : 0} VNĐ</span> }}
             />
 
 

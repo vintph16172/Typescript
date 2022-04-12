@@ -46,26 +46,41 @@ const FormCheckOut = () => {
             }, (error) => {
                 console.log(error.text);
             });
-        dispatch(addCarts(values))
-            .then((result) => {
-                const { payload } = result
-                console.log(payload);
-                cart.forEach((item) => {
-                    const flag = { cart: payload._id, product: item._id, quantity: item.quantity, total: item.price * item.quantity }
-                    console.log("Flag", flag);
-                    dispatch(addDetailCarts(flag))
-                })
-                localStorage.removeItem("cart")
-                dispatch(changeCartItem([]))
+        // dispatch(addCarts(values))
+        //     .then((result) => {
+        //         const { payload } = result
+        //         console.log(payload);
+        //         cart.forEach((item) => {
+        //             const flag = { cart: payload._id, product: item._id, quantity: item.quantity, total: item.price * item.quantity }
+        //             console.log("Flag", flag);
+        //             dispatch(addDetailCarts(flag))
+        //         })
+        //         localStorage.removeItem("cart")
+        //         dispatch(changeCartItem([]))
 
-            })
+        //     })
 
 
     };
+
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
+
+    
+
+    const sendEmail = (e) => {
+        e.preventDefault();
+        console.log("e", e);
+        emailjs.sendForm('service_07jt5rj', 'template_lrjyz7r', form.current, 'user_ZaKeVGTP2Smo2Bo6p7SOr')
+            .then((result) => {
+                console.log(result.text);
+            }, (error) => {
+                console.log(error.text);
+            });
+    };
+
 
     useEffect(() => {
         dispatch(changeCartItem(CartLocal()))
@@ -166,8 +181,6 @@ const FormCheckOut = () => {
                                 <h1 class="ml-2 font-bold uppercase">Thông Tin Đặt Hàng</h1>
                             </div>
                             <div class="p-4">
-                                {/* <p class="mb-4 italic">If you have some information for the seller you can leave them in the box below</p>
-                                <textarea class="w-full h-24 p-2 bg-gray-100 rounded"></textarea> */}
                                 <Form
                                     className='form-cart'
                                     ref={form}
@@ -186,6 +199,7 @@ const FormCheckOut = () => {
                                     autoComplete="off"
                                 >
                                     <Form.Item
+                                        
                                         label="Họ và Tên"
                                         name="name"
                                         rules={[
@@ -199,6 +213,7 @@ const FormCheckOut = () => {
                                     </Form.Item>
 
                                     <Form.Item
+                                        
                                         label="Email"
                                         name="email"
                                         rules={[
@@ -212,6 +227,7 @@ const FormCheckOut = () => {
                                     </Form.Item>
 
                                     <Form.Item
+                                       
                                         label="Địa Chỉ"
                                         name="address"
                                         rules={[
@@ -227,6 +243,7 @@ const FormCheckOut = () => {
 
 
                                     <Form.Item
+                                        
                                         label="Số Điện Thoại"
                                         name="phone"
                                         rules={[
@@ -243,20 +260,33 @@ const FormCheckOut = () => {
 
 
                                     <Form.Item
+                                        
                                         wrapperCol={{
                                             offset: 8,
                                             span: 16,
                                         }}
                                     >
-                                        {/* <Button type="primary" htmlType="submit">
+                                        <Button type="primary" htmlType="submit">
                                             Thanh Toán
-                                        </Button> */}
+                                        </Button>
                                         <button type="submit" class="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
                                             <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" class="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z" /></svg>
                                             <span class="ml-2 mt-5px">Thanh Toán</span>
                                         </button>
                                     </Form.Item>
                                 </Form>
+
+
+                                {/* <form ref={form} onSubmit={sendEmail}>
+                                    <label>Name</label>
+                                    <input type="text" name="name" />
+                                    <label>Email</label>
+                                    <input type="email" name="email" />
+                                    <label>Message</label>
+                                    <textarea name="message" />
+                                    <input type="submit" value="Send" />
+                                </form> */}
+
                             </div>
                         </div>
                         <div class="lg:px-2 lg:w-1/2">
@@ -291,7 +321,7 @@ const FormCheckOut = () => {
                                         Phí Shipping
                                     </div>
                                     <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                        {shipping? shipping : 0} VNĐ
+                                        {shipping ? shipping : 0} VNĐ
                                     </div>
                                 </div>
                                 <div class="flex justify-between pt-4 border-b">
@@ -320,8 +350,8 @@ const FormCheckOut = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 

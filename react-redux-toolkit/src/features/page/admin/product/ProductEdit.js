@@ -7,7 +7,7 @@ import { Divider, Form, Input, Button, Select, Avatar, Upload, message } from "a
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { getCategory, changeBreadcrumb } from '../../../slice/CategorySlice';
-import { editProducts } from '../../../slice/ProductSlice';
+import { editProducts,changeDetail } from '../../../slice/ProductSlice';
 import AdminPageHeader from '../../../../compoments/AdminPageHeader';
 
 const ProductEdit = () => {
@@ -19,14 +19,12 @@ const ProductEdit = () => {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [fileList, setfileList] = useState([]);
+    const products = useSelector(data => data.products.detail)
     console.log(id);
+   console.log("categories",categories);
+    console.log("detailProduct",products);
 
-    const category = categories.map((item) => {
-        return {
-            id: item._id,
-            cate: item.name
-        };
-    });
+   
 
     const onFinish = async (value) => {
         console.log(value);
@@ -68,6 +66,7 @@ const ProductEdit = () => {
 
             reset(data)
             form.setFieldsValue(data);
+            dispatch(changeDetail(data))
 
         }
         getProduct()
@@ -86,36 +85,45 @@ const ProductEdit = () => {
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Tên san pham"
+                        label="Tên Sản Phẩm"
                         name="name"
-                        rules={[{ required: true }]}
+                        rules={[{ required: true, message: 'Không để Trống!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Gias san pham"
+                        label="Giá Sản Phẩm"
                         name="price"
-                        rules={[{ required: true }]}
+                        rules={[{ required: true, message: 'Không để Trống!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Mô tả sản phẩm"
+                        label="Mô tả Sản Phẩm"
                         name="desc"
-                        rules={[{ required: true }]}
+                        rules={[{ required: true, message: 'Không để Trống!' }]}
                     >
                         <Input.TextArea />
                     </Form.Item>
 
                     <Form.Item
-                        label="Danh mục sản phẩm"
-                        name="cate"
-                        rules={[{ required: true }]}
+                        label="Danh mục Sản Phẩm"
+                        name="category"
+                        rules={[{ required: true, message: 'Không để Trống!' }]}
                     >
-                        <Select >
+                        <Select
+                            
+                            defaultValue={categories?.map((item,index) => {
+                                if (item._id === products?.category) {
+                                    return <Option key={index+1} value={item._id}>
+                                    {item.name}
+                                </Option>
+                                }
+                            })}
+                        >
 
-                            {category?.map((item) => (
-                                <Option key={item.id} value={item.cate}>
+                            {categories?.map((item,index) => (
+                                <Option key={index+1} value={item._id}>
                                     {item.name}
                                 </Option>
                             ))}
