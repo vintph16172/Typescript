@@ -32,11 +32,17 @@ const userSlice = createSlice({
     initialState:{
         value: {},
         listValue: [],
+        detail: {},
         selected: []
         
         
     },
     reducers:{
+        changeDetail(state, action) {
+            state.detail = action.payload
+
+            // console.log(action.payload);
+        },
         changeUserValue(state, action){
             state.value = action.payload
         },
@@ -64,7 +70,7 @@ const userSlice = createSlice({
 
     }
 })
-export const { changeUserValue,logOut,onSelected } = userSlice.actions
+export const { changeUserValue,logOut,onSelected,changeDetail } = userSlice.actions
 
 
 

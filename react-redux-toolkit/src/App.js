@@ -23,6 +23,7 @@ import CategoryAdd from './features/page/admin/category/CategoryAdd';
 import CategoryEdit from './features/page/admin/category/CategoryEdit';
 import ListUser from './features/page/admin/user/ListUser'
 import ListCart from './features/page/admin/cart/ListCart';
+import UserProfile from './features/page/UserProfile';
 
 function App() {
   return (
@@ -41,8 +42,10 @@ function App() {
             <Route path=":id" element={<CategoryPage />} />
 
           </Route>
+          <Route path="users/:id" element={<UserProfile />} />
           <Route path="checkout" element={<FormCheckOut />} />
           <Route path="order/:id" element={<OrderHistory />} />
+
         </Route>
 
         <Route path="admin" element={<PrivateRoute ><AdminLayout /></PrivateRoute>} >

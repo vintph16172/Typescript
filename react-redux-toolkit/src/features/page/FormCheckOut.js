@@ -10,6 +10,8 @@ import { changeCartItem, changeTotalQuantity, addItemToCart, removeItemFromCart,
 import { getCategory } from '../slice/CategorySlice';
 import { addCarts, addDetailCarts } from '../slice/CartSlice';
 import { isAthenticate } from '../utils/localstorage'
+import { listUserDetail } from '../../api/user'
+import axios from 'axios'
 
 const FormCheckOut = () => {
     const cart = useSelector(data => data.cart.items)
@@ -36,7 +38,6 @@ const FormCheckOut = () => {
     const onFinish = (values) => {
         const userData = isAthenticate()
         console.log('Success:', values);
-        console.log("ggg", form.current);
         // values.email = userData ? userData.user._id : ""
         values.total = totalCart
         console.log(values);
@@ -69,22 +70,38 @@ const FormCheckOut = () => {
         console.log('Failed:', errorInfo);
     };
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const navigate = useNavigate();
 
     const onSubmit = (data) => {
         // data.preventDefault();
         console.log("data", data);
-        data.total = totalCart
-        dispatch(addCarts(data))
+        const dataInput = {
+            name: data.name,
+            email: data.email,
+            address: data.address,
+            phone: data.phone,
+            total: totalCart
+        }
+        console.log("dataInput", dataInput);
+        dispatch(addCarts(dataInput))
             .then((data) => {
                 const { payload } = data
-                console.log(payload);
+                console.log("payload", payload);
+                const cartId = payload._id
                 cart.forEach((item) => {
                     const flag = { cart: payload._id, product: item._id, quantity: item.quantity, total: item.price * item.quantity }
                     console.log("Flag", flag);
                     dispatch(addDetailCarts(flag))
                 })
+                dataInput.cart = cartId
+                emailjs.send('service_07jt5rj', 'template_lrjyz7r', dataInput, 'user_ZaKeVGTP2Smo2Bo6p7SOr')
+                    .then(function (response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                    }, function (error) {
+                        console.log('FAILED...', error);
+                    });
+
                 localStorage.removeItem("cart")
                 dispatch(changeCartItem([]))
                 message.success('Thanh Toán Thành Công!');
@@ -92,31 +109,36 @@ const FormCheckOut = () => {
 
             })
 
-        emailjs.sendForm('service_07jt5rj', 'template_lrjyz7r', form.current, 'user_ZaKeVGTP2Smo2Bo6p7SOr')
-            .then((result) => {
-                console.log(result.text);
-            }, (error) => {
-                console.log(error.text);
-            });
-        
-        // navigate('/admin/product')
-    }
 
-    const sendEmail = (e) => {
-        e.preventDefault();
-        console.log("e", e);
-        emailjs.sendForm('service_07jt5rj', 'template_lrjyz7r', form.current, 'user_ZaKeVGTP2Smo2Bo6p7SOr')
-            .then((result) => {
-                console.log(result.text);
-            }, (error) => {
-                console.log(error.text);
-            });
-    };
+        // emailjs.send('service_07jt5rj', 'template_lrjyz7r', data, 'user_ZaKeVGTP2Smo2Bo6p7SOr')
+        // .then(function (response) {
+        //     console.log('SUCCESS!', response.status, response.text);
+        // }, function (error) {
+        //     console.log('FAILED...', error);
+        // });
+
+
+
+
+    }
 
 
     useEffect(() => {
         dispatch(changeCartItem(CartLocal()))
         dispatch(getCategory())
+        if (isAthenticate()) {
+            const { user } = isAthenticate()
+            const getUser = async () => {
+                const { data } = await listUserDetail(user._id);
+                reset(data)
+
+            }
+            getUser();
+        }
+
+
+
+
     }, [])
 
     return (
@@ -310,15 +332,6 @@ const FormCheckOut = () => {
                                 </Form> */}
 
 
-                                {/* <form ref={form} onSubmit={sendEmail}>
-                                    <label>Name</label>
-                                    <input type="text" name="name" />
-                                    <label>Email</label>
-                                    <input type="email" name="email" />
-                                    <label>Message</label>
-                                    <textarea name="message" />
-                                    <input type="submit" value="Send" />
-                                </form> */}
                                 <div class="p-4">
 
                                     <form ref={form} onSubmit={handleSubmit(onSubmit)}>

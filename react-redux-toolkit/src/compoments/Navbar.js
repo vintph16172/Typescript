@@ -50,6 +50,9 @@ const Navbar = () => {
     const userMenu = (
         <Menu>
             <Menu.Item>
+                <NavLink to={`/users/${user.user ? user.user._id : ""}`} className="inline-block py-2 px-4 text-black  no-underline" >Thông Tin Tài Khoản</NavLink>
+            </Menu.Item>
+            <Menu.Item>
                 <NavLink to={`/order/${user.user ? user.user._id : ""}`} className="inline-block py-2 px-4 text-black  no-underline" >Lịch sử Mua Hàng</NavLink>
             </Menu.Item>
             <Menu.Item>
@@ -102,7 +105,7 @@ const Navbar = () => {
                     {user.user ? <Dropdown overlay={userMenu}>
                         <div>
                             <span className="inline-block py-2 px-4 text-black  no-underline">{user.user.name}</span>
-                            <Avatar src="https://joeschmoe.io/api/v1/random" style={{ width: 32 }} />
+                            <Avatar src={user.user.avatar} style={{ width: 32 }} />
                         </div>
                     </Dropdown> : <Link to={`/signin`} >Đăng Nhập</Link>
 

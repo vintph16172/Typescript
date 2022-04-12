@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react';
 import { deleteProducts, getProducts, addId, changeBreadcrumb } from '../../../slice/ProductSlice';
 import { Link } from 'react-router-dom'
-import { Row, Col, Space, Table, Button, Input, Avatar } from 'antd';
-import { SearchOutlined,EnvironmentOutlined,CheckCircleOutlined } from '@ant-design/icons';
+import { Row, Col, Space, Table, Button, Input, Avatar, Descriptions } from 'antd';
+import { SearchOutlined, EnvironmentOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { getCategory } from '../../../slice/CategorySlice';
 import AdminPageHeader from '../../../../compoments/AdminPageHeader';
 import { isAthenticate } from '../../../utils/localstorage'
@@ -24,7 +24,7 @@ const ListCart = () => {
     let totalSale = 0
     if (cart?.length !== 0) {
         cart?.forEach((item) => {
-            totalSale += item.total 
+            totalSale += item.total
         })
     }
     console.log("Cart", cart);
@@ -144,14 +144,14 @@ const ListCart = () => {
                         console.log(recordUpdate);
                         dispatch(editCarts(recordUpdate))
                     }}>
-                        <CheckCircleOutlined /> 
-                    </Button> : <Button type="primary"  className='btn-update' onClick={() => {
+                        <CheckCircleOutlined />
+                    </Button> : <Button type="primary" className='btn-update' onClick={() => {
                         const recordUpdate = record
                         recordUpdate.status = 1
                         console.log(recordUpdate);
                         dispatch(editCarts(recordUpdate))
                     }}>
-                        <EnvironmentOutlined /> 
+                        <EnvironmentOutlined />
                     </Button>}
 
 
@@ -230,7 +230,7 @@ const ListCart = () => {
 
     ]
 
-    const dataTable = cart?.map((item, index) => { return { key: index + 1, _id: item._id, name: item.name,email: item.email, address: item.address, phone: item.phone, total: item.total , status: item.status == 0 ? "Đang Giao Hàng" : "Giao Hàng Thành Công" } })
+    const dataTable = cart?.map((item, index) => { return { key: index + 1, _id: item._id, name: item.name, email: item.email, address: item.address, phone: item.phone, total: item.total, status: item.status == 0 ? "Đang Giao Hàng" : "Giao Hàng Thành Công" } })
 
     useEffect(() => {
         dispatch(getCarts())
@@ -324,15 +324,29 @@ const ListCart = () => {
                                 return products.map(item2 => {
                                     if (item.product == item2._id) {
                                         const DetailCartTable = detailCart.map((item, index) => { return { key: index + 1, _id: item._id, image: item2.image, name: item2.name, category: categories.filter(cate => { return cate._id == item2.category }).map((item3) => { return item3.name }), price: item2.price, quantity: item.quantity, total: item.total } })
-                                        return <Table className="m-6"
+                                        // return <Table className="m-6"
 
-                                            pagination={false }
-                                            dataSource={DetailCartTable}
-                                            columns={columns2}
-                                            bordered
-                                            title={() => 'Chi Tiết Đơn Hàng'}
-                                           
-                                        />
+                                        //     pagination={false }
+                                        //     dataSource={DetailCartTable}
+                                        //     columns={columns2}
+                                        //     bordered
+                                        //     title={() => 'Chi Tiết Đơn Hàng'}
+
+                                        // />
+                                        return DetailCartTable.map((item10, index) => {
+
+                                            return <Descriptions title={<p>Chi Tiết Đơn Hàng {item10._id}</p>} layout="vertical" bordered column={{ sm: 8, md: 8 }} >
+                                                <Descriptions.Item label="STT">{item10.key}</Descriptions.Item>
+                                                <Descriptions.Item label="ID">{item10._id}</Descriptions.Item>
+                                                <Descriptions.Item label="Ảnh"><img className="w-28 " src={item10.image} /></Descriptions.Item>
+                                                <Descriptions.Item label="Tên">{item10.name}</Descriptions.Item>
+                                                <Descriptions.Item label="Danh Mục">{item10.category}</Descriptions.Item>
+                                                <Descriptions.Item label="Giá">{item10.price}</Descriptions.Item>
+                                                <Descriptions.Item label="Số Lượng">{item10.quantity}</Descriptions.Item>
+                                                <Descriptions.Item label="Tổng Giá">{item10.total}</Descriptions.Item>
+
+                                            </Descriptions>
+                                        })
 
 
 
@@ -353,8 +367,8 @@ const ListCart = () => {
                 dataSource={dataTable}
                 columns={columns}
                 bordered
-                
-                footer={() => { return <span>Tổng Doanh Thu: {totalSale? totalSale : 0} VNĐ</span> }}
+
+                footer={() => { return <span>Tổng Doanh Thu: {totalSale ? totalSale : 0} VNĐ</span> }}
             />
 
 

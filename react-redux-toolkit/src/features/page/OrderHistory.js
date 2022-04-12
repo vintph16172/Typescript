@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { List, Typography, Row, Col, Card, Space, Table, Button, Input, Avatar, Tag } from 'antd';
+import { List, Typography, Row, Col, Card, Space, Table, Button, Input, Avatar, Tag, Descriptions, Badge } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
 import { getCartDetail, getDetailCartByID } from '../slice/CartSlice'
 import { Link, useParams, useLocation, useSearchParams, useNavigate } from 'react-router-dom'
@@ -234,15 +234,31 @@ const OrderHistory = () => {
                                 console.log("detailCart", detailCart);
                                 return products.map(item2 => {
                                     if (item.product == item2._id) {
-                                        const DetailCartTable = detailCart.map((item, index) => { return { key: index + 1, _id: item._id, image: item2.image, name: item2.name, category: categories.filter(cate => { return cate._id == item2.category }).map((item3) => { return item3.name }), price: item2.price, quantity: item.quantity, total: item.total } })
-                                        return <Table className="m-6"
+                                        const DetailCartTable = detailCart.map((item10, index) => { return { key: index + 1, _id: item._id, image: item2.image, name: item2.name, category: categories.filter(cate => { return cate._id == item2.category }).map((item3) => { return item3.name }), price: item2.price, quantity: item.quantity, total: item.total } })
+                                        // return <Table className="m-6"
 
-                                            pagination={false}
-                                            dataSource={DetailCartTable}
-                                            columns={columns2}
-                                            bordered
-                                            title={() => 'Chi Tiết Đơn Hàng'}
-                                        />
+                                        //     pagination={false}
+                                        //     dataSource={DetailCartTable}
+                                        //     columns={columns2}
+                                        //     bordered
+                                        //     title={() => 'Chi Tiết Đơn Hàng'}
+                                        // />
+                                        return DetailCartTable.map((item10, index) => {
+
+                                            return <Descriptions title={<p>Chi Tiết Đơn Hàng {item10._id}</p>} layout="vertical" bordered column={{ sm: 8, md: 8 }} >
+                                                <Descriptions.Item label="STT">{item10.key}</Descriptions.Item>
+                                                <Descriptions.Item label="ID">{item10._id}</Descriptions.Item>
+                                                <Descriptions.Item label="Ảnh"><img className="w-28 " src={item10.image} /></Descriptions.Item>
+                                                <Descriptions.Item label="Tên">{item10.name}</Descriptions.Item>
+                                                <Descriptions.Item label="Danh Mục">{item10.category}</Descriptions.Item>
+                                                <Descriptions.Item label="Giá">{item10.price}</Descriptions.Item>
+                                                <Descriptions.Item label="Số Lượng">{item10.quantity}</Descriptions.Item>
+                                                <Descriptions.Item label="Tổng Giá">{item10.total}</Descriptions.Item>
+
+                                            </Descriptions>
+                                        })
+                                       
+
 
 
 

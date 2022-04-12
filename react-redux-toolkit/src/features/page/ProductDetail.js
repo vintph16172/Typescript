@@ -2,13 +2,14 @@ import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { detailProduct } from '../../api/product'
-import { Image, Carousel, Row, Col, Card, List } from 'antd';
+import { Image, Carousel, Row, Col, Card, List, Comment, Avatar, Form, Button, Input, Tabs, Tooltip } from 'antd';
 import { changeDetail } from '../slice/ProductSlice';
 import { getCategory } from '../slice/CategorySlice';
 import { getProducts } from '../slice/ProductSlice';
-import { changeCartItem,addItemToCart } from '../slice/CartSlice';
+import { changeCartItem, addItemToCart } from '../slice/CartSlice';
 import { Link } from 'react-router-dom'
 import { CartLocal } from '../utils/localstorage'
+import moment from 'moment';
 
 const ProductDetail = () => {
   const products = useSelector(data => data.products.detail)
@@ -18,8 +19,9 @@ const ProductDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch()
   const { Meta } = Card;
-  console.log('Detail',products);
-  console.log('Detail',cart);
+  const { TabPane } = Tabs;
+  console.log('Detail', products);
+  console.log('Detail', cart);
 
   const productRelate = []
   if (productsArr.length !== 0) {
@@ -41,6 +43,43 @@ const ProductDetail = () => {
   }
   console.log(productRelate);
 
+  const dataComment = [
+    {
+      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
+      author: 'Han Solo',
+      avatar: 'https://joeschmoe.io/api/v1/random',
+      content: (
+        <p>
+          We supply a series of design principles, practical patterns and high quality design
+          resources (Sketch and Axure), to help people create their product prototypes beautifully and
+          efficiently.
+        </p>
+      ),
+      datetime: (
+        <Tooltip title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}>
+          <span>{moment().subtract(1, 'days').fromNow()}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
+      author: 'Han Solo',
+      avatar: 'https://joeschmoe.io/api/v1/random',
+      content: (
+        <p>
+          We supply a series of design principles, practical patterns and high quality design
+          resources (Sketch and Axure), to help people create their product prototypes beautifully and
+          efficiently.
+        </p>
+      ),
+      datetime: (
+        <Tooltip title={moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')}>
+          <span>{moment().subtract(2, 'days').fromNow()}</span>
+        </Tooltip>
+      ),
+    },
+  ];
+
 
   useEffect(() => {
     const getProduct = async () => {
@@ -54,7 +93,7 @@ const ProductDetail = () => {
     dispatch(getCategory())
     dispatch(getProducts())
     dispatch(changeCartItem(CartLocal()))
-    
+
   }, [id])
 
   return (
@@ -120,11 +159,11 @@ const ProductDetail = () => {
               </div>
               <p class="leading-relaxed">{products.desc}</p>
               <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
-               
+
               </div>
               <div class="flex">
                 <span class="title-font font-medium text-2xl text-gray-900">{products.price} VNĐ</span>
-                <button  onClick={()=> dispatch(addItemToCart(products) )} class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Đặt Mua</button>
+                <button onClick={() => dispatch(addItemToCart(products))} class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Đặt Mua</button>
                 <button class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                   <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
@@ -135,6 +174,53 @@ const ProductDetail = () => {
           </div>
         </div>
       </section>
+
+      <section className="bg-white border-b ">
+        <div className="container mx-auto flex flex-wrap pt-4 pb-12">
+          <div className="w-full md:w-full pt-0 p-6 flex flex-col flex-grow flex-shrink">
+            <Tabs defaultActiveKey="1" centered>
+              <TabPane tab={<h1 className="w-full my-2 text-xl font-bold leading-tight text-center text-gray-800">
+                Thông Tin Chi Tiết
+              </h1>} key="1">
+                Content of Tab Pane 1
+              </TabPane>
+              <TabPane tab={<h1 className="w-full my-2 text-xl font-bold leading-tight text-center text-gray-800">
+                Bình Luận
+              </h1>} key="2">
+                <List
+                  className="comment-list"
+                  header={<div>
+                    {dataComment.length} replies
+                  </div>}
+                  itemLayout="horizontal"
+                  dataSource={dataComment}
+                  renderItem={item => (
+                    <li>
+                      <Comment
+                        actions={item.actions}
+                        author={item.author}
+                        avatar={item.avatar}
+                        content={item.content}
+                        datetime={item.datetime}
+                      />
+                    </li>
+                  )}
+                />
+              </TabPane>
+
+            </Tabs>
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+      </section>
+
 
 
 
@@ -179,7 +265,7 @@ const ProductDetail = () => {
             )}
           />
 
-          
+
 
 
 
