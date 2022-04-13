@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, createElement, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { useForm, Controller } from 'react-hook-form'
 import { detailProduct } from '../../api/product'
-import { Image, Carousel, Row, Col, Card, List, Comment, Avatar, Form, Button, Input, Tabs, Tooltip } from 'antd';
+import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
+import { Image, Carousel, Row, Col, Card, List, Comment, Avatar, Form, Button, Input, Tabs, Tooltip, Rate, message } from 'antd';
 import { changeDetail } from '../slice/ProductSlice';
 import { getCategory } from '../slice/CategorySlice';
 import { getProducts } from '../slice/ProductSlice';
 import { changeCartItem, addItemToCart } from '../slice/CartSlice';
+import { getUsers } from '../slice/UserSlice';
+import { getComments, getCommentDetail, addComments, editComments, deleteComments, changeDetailComment } from '../slice/CommentSlice';
 import { Link } from 'react-router-dom'
-import { CartLocal } from '../utils/localstorage'
+import { CartLocal, isAthenticate } from '../utils/localstorage'
 import moment from 'moment';
 
 const ProductDetail = () => {
@@ -16,12 +20,25 @@ const ProductDetail = () => {
   const productsArr = useSelector(data => data.products.value)
   const categories = useSelector(data => data.category.value)
   const cart = useSelector(data => data.cart.items)
+  const commentAll = useSelector(data => data.comment.value)
+  const user = useSelector(data => data.user.listValue)
+  let userLocal = {}
+  if(isAthenticate()){
+    const { token, user } = isAthenticate()
+    userLocal = user
+  }
+
   const { id } = useParams();
   const dispatch = useDispatch()
   const { Meta } = Card;
   const { TabPane } = Tabs;
-  console.log('Detail', products);
-  console.log('Detail', cart);
+  const { TextArea } = Input;
+    
+  console.log("Detail UserLocal",userLocal);
+  console.log('Detail Products', products);
+  console.log('Detail Cart', cart);
+  console.log('Detail Comment', commentAll);
+  console.log('Detail User', user);
 
   const productRelate = []
   if (productsArr.length !== 0) {
@@ -41,45 +58,84 @@ const ProductDetail = () => {
       }
     }
   }
-  console.log(productRelate);
+  console.log("Product Relate", productRelate);
 
-  const dataComment = [
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://joeschmoe.io/api/v1/random',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-          <span>{moment().subtract(1, 'days').fromNow()}</span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://joeschmoe.io/api/v1/random',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip title={moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-          <span>{moment().subtract(2, 'days').fromNow()}</span>
-        </Tooltip>
-      ),
-    },
-  ];
+  const commentDetail = commentAll.filter(item => item.product == id)
 
+  console.log("Comment Detail", commentDetail);
+
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
+  const [action, setAction] = useState(null);
+  const [likeClick, setLikeClick] = useState([])
+  const [rate, setRate] = useState(3)
+  let abc = []
+  let count = 0
+  // setLikeClick(abc)
+  console.log("likeClick", likeClick);
+
+
+  const like = (a) => {
+    const flag = { key: a, state: true }
+
+    console.log("like", a);
+    console.log("flag", flag);
+
+    abc = abc.map(item => item.key === a ? flag : item)
+    setLikeClick(abc)
+    console.log("abc Update like", abc);
+    console.log("setLikeClick", likeClick);
+    // setLikes(1);
+    // setDislikes(0);
+    // setAction('liked');
+  };
+
+  const dislike = (a) => {
+    console.log("dislike", a);
+    const flag = { key: a, state: false }
+
+    console.log("like", a);
+    console.log("flag", flag);
+
+    abc = abc.map(item => item.key === a ? flag : item)
+    setLikeClick(abc)
+    console.log("abc Update dislike", abc);
+    console.log("setLikeClick", likeClick);
+    // setLikes(0);
+    // setDislikes(1);
+    // setAction('disliked');
+  };
+
+  const onRate = value => {
+    setRate(value);
+  };
+
+  const desc = ['Rất Tệ!', 'Tệ!', 'Trung Bình!', 'Tốt!', 'Rất Tốt!'];
+  let banned = ['fuck', 'dmm', 'dog'];
+
+  const onFinish = (values) => {
+    if (isAthenticate()) {
+      const { token, user } = isAthenticate()
+      values.rate = rate
+      values.user = user._id
+      values.product = id
+      let arr = values.desc.split(/\b/)
+      let censored = arr.map(word => banned.includes(word) ? values.desc.charAt(0) + '*'.repeat(word.length - 1) : word)
+      values.desc = censored.join('');
+      console.log('Success:', values);
+
+      dispatch(addComments(values))
+      message.success('Thêm Bình Luận Thành Công!');
+    } else {
+      message.error('Mời Bạn Đăng Nhập!');
+    }
+
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    message.error('Mời Bạn Nhập Lại!');
+    console.log('Failed:', errorInfo);
+  };
 
   useEffect(() => {
     const getProduct = async () => {
@@ -92,6 +148,8 @@ const ProductDetail = () => {
     getProduct()
     dispatch(getCategory())
     dispatch(getProducts())
+    dispatch(getUsers())
+    dispatch(getComments())
     dispatch(changeCartItem(CartLocal()))
 
   }, [id])
@@ -190,22 +248,115 @@ const ProductDetail = () => {
                 <List
                   className="comment-list"
                   header={<div>
-                    {dataComment.length} replies
+                    {commentDetail.length} Lượt Bình Luận
                   </div>}
                   itemLayout="horizontal"
-                  dataSource={dataComment}
+                  dataSource={commentDetail}
                   renderItem={item => (
-                    <li>
-                      <Comment
-                        actions={item.actions}
-                        author={item.author}
-                        avatar={item.avatar}
-                        content={item.content}
-                        datetime={item.datetime}
-                      />
-                    </li>
+
+                    user.map((item2, index) => {
+                      if (item.user == item2._id) {
+
+                        abc.push({ key: count++, state: false })
+                        const clickKey = count - 1
+                        console.log("abc", abc);
+                        // setLikeClick([...likeClick,{ key: count++, state: false }])
+                        
+                        return <li>
+                          <Comment
+                            actions={
+                              // abc?.map(item10 => {
+                              //   if (item10.state == false) {
+                              //     return [
+                              //       <Tooltip key="comment-basic-like" title="Like">
+                              //         <span onClick={() => like(clickKey)}>
+                              //           {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
+                              //           <span className="comment-action">{item.like}</span>
+                              //         </span>
+                              //       </Tooltip>,
+                              //       <span key="comment-basic-reply-to">Trả Lời</span>,
+                              //     ]
+                              //   }
+                              //   return [
+                              //     <Tooltip key="comment-basic-dislike" title="Dislike">
+                              //       <span onClick={() => dislike(clickKey)}>
+                              //         {React.createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
+                              //         <span className="comment-action">{item.like}</span>
+                              //       </span>
+                              //     </Tooltip>,
+                              //     <span key="comment-basic-reply-to">Trả Lời</span>,
+
+                              //   ]
+                              // })
+
+                              [
+
+                                <Tooltip key="comment-basic-like" title="Like">
+                                  <span onClick={() => like(clickKey)}>
+                                    {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
+                                    <span className="comment-action">{item.like}</span>
+                                  </span>
+                                </Tooltip>,
+                                <Tooltip key="comment-basic-dislike" title="Dislike">
+                                  <span onClick={() => dislike(clickKey)}>
+                                    {React.createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
+                                    <span className="comment-action">{item.like}</span>
+                                  </span>
+                                </Tooltip>,
+                                <span key="comment-basic-reply-to">Trả Lời</span>,
+                                
+                              ]
+                            }
+                            author={item2.name}
+                            avatar={item2.avatar}
+                            content={
+                              <div >
+                                <Rate disabled defaultValue={item.rate} />
+                                <p >{item.desc}</p>
+                              </div>
+                            }
+                            datetime={
+                              <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                                <span>{moment().fromNow()}</span>
+                              </Tooltip>
+                            }
+                          />
+
+                        </li>
+                      }
+
+
+                    })
+
                   )}
                 />
+                <Form
+                  name="form-comment"
+
+                  onFinish={onFinish}
+                  onFinishFailed={onFinishFailed}
+                  autoComplete="off"
+                >
+                  <Form.Item
+                    name="desc"
+                    rules={[{ required: true, message: 'Không để trống!' }]}
+                  >
+                    <TextArea rows={4} placeholder="Nhập Bình Luận..." />
+                  </Form.Item>
+                  <Form.Item
+
+
+                  >
+                    <Rate tooltips={desc} onChange={onRate} value={rate} />
+                    {rate ? <span className="ant-rate-text">{desc[rate - 1]}</span> : ''}
+
+                  </Form.Item>
+                  <Form.Item>
+                    <Button htmlType="submit" type="primary">
+                      Gửi
+                    </Button>
+                  </Form.Item>
+                </Form>
               </TabPane>
 
             </Tabs>
