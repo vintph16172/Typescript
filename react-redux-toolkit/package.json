@@ -5,6 +5,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@emailjs/browser": "^3.5.0",
+    "@react-google-maps/api": "^2.8.1",
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -12,6 +13,7 @@
     "ant": "^0.2.0",
     "antd": "^4.19.5",
     "axios": "^0.26.1",
+    "google-map-react": "^2.1.10",
     "moment": "^2.29.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

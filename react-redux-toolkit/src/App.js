@@ -24,6 +24,7 @@ import CategoryEdit from './features/page/admin/category/CategoryEdit';
 import ListUser from './features/page/admin/user/ListUser'
 import ListCart from './features/page/admin/cart/ListCart';
 import UserProfile from './features/page/UserProfile';
+import ContactPage from './features/page/ContactPage';
 
 function App() {
   return (
@@ -36,12 +37,12 @@ function App() {
           <Route path="products">
             <Route index element={<ProductPage />} />
             <Route path=":id" element={<ProductDetail />} />
-            
           </Route>
           <Route path="category">
             <Route path=":id" element={<CategoryPage />} />
-
           </Route>
+
+          <Route path="contact" element={<ContactPage />} />
           <Route path="users/:id" element={<UserProfile />} />
           <Route path="checkout" element={<FormCheckOut />} />
           <Route path="order/:id" element={<OrderHistory />} />
@@ -55,13 +56,13 @@ function App() {
 
           <Route path="products"  >
             <Route index element={<ListProduct />} />
-            <Route path="add/:id" element={<ProductAdd  />} />
+            <Route path="add/:id" element={<ProductAdd />} />
             <Route path=":id/edit" element={<ProductEdit />} />
           </Route >
 
           <Route path="category"  >
             <Route index element={<ListCategory />} />
-            <Route path="add/:id" element={<CategoryAdd  />} />
+            <Route path="add/:id" element={<CategoryAdd />} />
             <Route path=":id/edit" element={<CategoryEdit />} />
           </Route >
 

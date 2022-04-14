@@ -50,10 +50,10 @@ const Navbar = () => {
     const userMenu = (
         <Menu>
             <Menu.Item>
-                <NavLink to={`/users/${user.user ? user.user._id : ""}`} className="inline-block py-2 px-4 text-black  no-underline" >Thông Tin Tài Khoản</NavLink>
+                <NavLink to={`/users/${user?.user ? user.user._id : ""}`} className="inline-block py-2 px-4 text-black  no-underline" >Thông Tin Tài Khoản</NavLink>
             </Menu.Item>
             <Menu.Item>
-                <NavLink to={`/order/${user.user ? user.user._id : ""}`} className="inline-block py-2 px-4 text-black  no-underline" >Lịch sử Mua Hàng</NavLink>
+                <NavLink to={`/order/${user?.user ? user.user._id : ""}`} className="inline-block py-2 px-4 text-black  no-underline" >Lịch sử Mua Hàng</NavLink>
             </Menu.Item>
             <Menu.Item>
                 <Button type="text" onClick={() => dispatch(logOut())} icon={<LoginOutlined />} >Đăng Xuất</Button>
@@ -68,7 +68,7 @@ const Navbar = () => {
 
     };
 
-
+   
     useEffect(() => {
         dispatch(changeCartItem(CartLocal()))
         dispatch(getCategory())
@@ -100,9 +100,14 @@ const Navbar = () => {
                             <NavLink to='/products' className="inline-block py-2 px-4 text-black  no-underline" >Sản Phẩm</NavLink>
                         </Dropdown>
                     </li>
+                    <li className="mr-3">
+                        <NavLink to='/contact' className="inline-block py-2 px-4 text-black  no-underline" >Liên Hệ</NavLink>
+
+                    </li>
+                  
 
 
-                    {user.user ? <Dropdown overlay={userMenu}>
+                    {user?.user ? <Dropdown overlay={userMenu}>
                         <div>
                             <span className="inline-block py-2 px-4 text-black  no-underline">{user.user.name}</span>
                             <Avatar src={user.user.avatar} style={{ width: 32 }} />

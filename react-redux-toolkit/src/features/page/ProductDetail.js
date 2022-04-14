@@ -288,8 +288,25 @@ const ProductDetail = () => {
 
                               //   ]
                               // })
-
-                              [
+                             
+                              userLocal?.role == 1?[
+                                
+                                <Tooltip key="comment-basic-like" title="Like">
+                                  <span onClick={() => like(clickKey)}>
+                                    {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
+                                    <span className="comment-action">{item.like}</span>
+                                  </span>
+                                </Tooltip>,
+                                <Tooltip key="comment-basic-dislike" title="Dislike">
+                                  <span onClick={() => dislike(clickKey)}>
+                                    {React.createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
+                                    <span className="comment-action">{item.like}</span>
+                                  </span>
+                                </Tooltip>,
+                                <span key="comment-basic-reply-to">Trả Lời</span>,
+                                <span onClick={()=> dispatch(deleteComments(item._id))} >Xóa</span>,
+                                
+                              ] :[
 
                                 <Tooltip key="comment-basic-like" title="Like">
                                   <span onClick={() => like(clickKey)}>
@@ -305,7 +322,10 @@ const ProductDetail = () => {
                                 </Tooltip>,
                                 <span key="comment-basic-reply-to">Trả Lời</span>,
                                 
+                                
                               ]
+
+                              
                             }
                             author={item2.name}
                             avatar={item2.avatar}
