@@ -56,6 +56,9 @@ const Navbar = () => {
                 <NavLink to={`/order/${user?.user ? user.user._id : ""}`} className="inline-block py-2 px-4 text-black  no-underline" >Lịch sử Mua Hàng</NavLink>
             </Menu.Item>
             <Menu.Item>
+                <NavLink to={`/admin/products`} className="inline-block py-2 px-4 text-black  no-underline" >Quản Trị</NavLink>
+            </Menu.Item>
+            <Menu.Item>
                 <Button type="text" onClick={() => dispatch(logOut())} icon={<LoginOutlined />} >Đăng Xuất</Button>
             </Menu.Item>
 
